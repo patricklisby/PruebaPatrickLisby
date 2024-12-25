@@ -34,8 +34,8 @@ namespace PruebaPatrickLisby.Controllers
                     {
                         productos.Add(new Producto
                         {
-                            IdProducto = (int)reader["idCategoria"],
-                            DescripcionProducto = reader["DescripcionCategoria"].ToString(),
+                            idProducto = (int)reader["idCategoria"],
+                            descripcionProducto = reader["DescripcionCategoria"].ToString(),
                         });
                     }
                 }

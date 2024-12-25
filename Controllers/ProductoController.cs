@@ -16,8 +16,8 @@ namespace PruebaPatrickLisby.Controllers
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
-        [HttpGet("getAllProductos")]
-        public IActionResult GetProductos()
+        [HttpGet("obtenerProductos")]
+        public IActionResult ObtenerProductos()
         {
             try
             {
@@ -38,6 +38,7 @@ namespace PruebaPatrickLisby.Controllers
                             cantidadProducto = (int)reader["cantidadProducto"],
                             fechaPublicacion = (DateTime)reader["fechaPublicacion"],
                             idCategoria = (int)reader["idCategoria"],
+                            estado = (int)reader["estado"],
                             idCedulaUsuarioRegistra = (int)reader["idCedulaUsuarioRegistra"]
                         });
                     }
@@ -50,8 +51,8 @@ namespace PruebaPatrickLisby.Controllers
             }
         }
 
-        [HttpGet("getProducto/{id}")]
-        public IActionResult GetProducto(int id)
+        [HttpGet("obtenerProductoId/{id}")]
+        public IActionResult ObtenerProductoId(int id)
         {
             try
             {
@@ -66,14 +67,15 @@ namespace PruebaPatrickLisby.Controllers
                     {
                         producto = new Producto
                         {
-                            IdProducto = (int)reader["IdProducto"],
-                            DescripcionProducto = reader["DescripcionProducto"].ToString(),
-                            DetallesProducto = reader["DetallesProducto"].ToString(),
-                            PrecioProducto = (decimal)reader["PrecioProducto"],
-                            CantidadProducto = (int)reader["CantidadProducto"],
-                            FechaPublicacion = (DateTime)reader["FechaPublicacion"],
-                            IdCategoria = (int)reader["IdCategoria"],
-                            IdCedulaUsuarioRegistra = (int)reader["IdCedulaUsuarioRegistra"]
+                            idProducto = (int)reader["IdProducto"],
+                            descripcionProducto = reader["DescripcionProducto"].ToString(),
+                            detallesProducto = reader["DetallesProducto"].ToString(),
+                            precioProducto = (decimal)reader["PrecioProducto"],
+                            cantidadProducto = (int)reader["CantidadProducto"],
+                            fechaPublicacion = (DateTime)reader["FechaPublicacion"],
+                            idCategoria = (int)reader["IdCategoria"],
+                            estado = (int)reader["estado"],
+                            idCedulaUsuarioRegistra = (int)reader["IdCedulaUsuarioRegistra"]
                         };
                     }
                     else {
@@ -89,47 +91,153 @@ namespace PruebaPatrickLisby.Controllers
         }
 
         [HttpPost("crearProducto")]
-        public IActionResult CreateProducto([FromBody] Producto producto)
+        public IActionResult CrearProducto([FromBody] Producto producto)
         {
+            producto.fechaPublicacion = DateTime.Now;//Tomar la fecha actual
+
+            int idCedulaUsuarioRegistra = 1;
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Productos (descripcionProducto, detallesProducto, IdCategoria) VALUES (@descripcionProducto, @Precio, @IdCategoria)", conn);
-                cmd.Parameters.AddWithValue("@descripcionProducto", producto.descripcion);
-                cmd.Parameters.AddWithValue("@Precio", producto.Precio);
-                cmd.Parameters.AddWithValue("@IdCategoria", producto.IdCategoria);
+                SqlCommand cmd = new SqlCommand(@"
+    INSERT INTO Productos (
+        descripcionProducto, 
+        detallesProducto, 
+        precioProducto, 
+        cantidadProducto, 
+        fechaPublicacion, 
+        idCategoria, 
+        idCedulaUsuarioRegistra,
+        estado
+    )
+    VALUES (
+        @descripcionProducto, 
+        @detallesProducto, 
+        @precioProducto, 
+        @cantidadProducto, 
+        @fechaPublicacion, 
+        @idCategoria, 
+        @idCedulaUsuarioRegistra,
+        @estado
+    )",
+     conn);
+
+                cmd.Parameters.AddWithValue("@descripcionProducto", producto.descripcionProducto);
+                cmd.Parameters.AddWithValue("@detallesProducto", producto.detallesProducto);
+                cmd.Parameters.AddWithValue("@precioProducto", producto.precioProducto);
+                cmd.Parameters.AddWithValue("@cantidadProducto", producto.cantidadProducto);
+                cmd.Parameters.AddWithValue("@fechaPublicacion", producto.fechaPublicacion);
+                cmd.Parameters.AddWithValue("@idCategoria", producto.idCategoria);
+                cmd.Parameters.AddWithValue("@idCedulaUsuarioRegistra", idCedulaUsuarioRegistra);
+                cmd.Parameters.AddWithValue("@estado", producto.estado);
                 cmd.ExecuteNonQuery();
             }
             return Ok();
         }
 
-        public void UpdateProducto(int id, string nombre, int idCategoria)
+        [HttpPut("editarProducto/{idProducto}")]
+        public IActionResult EditarProducto(int idProducto, [FromBody] Producto producto)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            try
             {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand("UPDATE Productos SET Nombre = @Nombre, IdCategoria = @IdCategoria WHERE Id = @Id", conn))
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    cmd.Parameters.AddWithValue("@Nombre", nombre);
-                    cmd.Parameters.AddWithValue("@IdCategoria", idCategoria);
-                    cmd.ExecuteNonQuery();
+                    connection.Open();
+
+                    // Ajusta los nombres de columna exactamente como están en tu tabla
+                    // Corrige "descriptcionProducto" -> "descripcionProducto"
+                    // Ajusta la sentencia para que coincidan los nombres de parámetros
+                    string sql = @"
+                UPDATE Productos
+                   SET descripcionProducto       = @descripcionProducto,
+                       detallesProducto         = @detallesProducto,
+                       precioProducto           = @precioProducto,
+                       cantidadProducto         = @cantidadProducto,
+                       estado                   = @estado,
+                       fechaPublicacion         = @fechaPublicacion,
+                       idCategoria              = @idCategoria,
+                       idCedulaUsuarioRegistra  = @idCedulaUsuarioRegistra
+                      
+                 WHERE idProducto = @idProducto
+            ";
+
+                    using (var cmd = new SqlCommand(sql, connection))
+                    {
+                        // Usamos el id de la ruta, no el del body, para evitar desajustes
+                        cmd.Parameters.AddWithValue("@idProducto", idProducto);
+
+                        // Mapea el resto de parámetros desde el body dynamic
+                        // Asegúrate de que tu JSON contenga estas propiedades
+                        cmd.Parameters.AddWithValue("@descripcionProducto", (string)producto.descripcionProducto);
+                        cmd.Parameters.AddWithValue("@detallesProducto", (string)producto.detallesProducto);
+                        cmd.Parameters.AddWithValue("@precioProducto", (decimal)producto.precioProducto);
+                        cmd.Parameters.AddWithValue("@cantidadProducto", (int)producto.cantidadProducto);
+                        cmd.Parameters.AddWithValue("@estado", producto.estado);
+
+                        // y en la BD se llama "fechaPublicacion":
+                        cmd.Parameters.AddWithValue("@fechaPublicacion", (DateTime)producto.fechaPublicacion);
+
+                        cmd.Parameters.AddWithValue("@idCategoria", (int)producto.idCategoria);
+                        cmd.Parameters.AddWithValue("@idCedulaUsuarioRegistra", (int)producto.idCedulaUsuarioRegistra);
+
+                        // Ejecutamos la sentencia
+                        var rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            // 204 No Content es un estado común para PUT exitoso
+                            return StatusCode(204, new { mensaje = "Actualización éxitosa" });
+                        }
+                        else
+                        {
+                            return NotFound(new { mensaje = "Producto no encontrado." });
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = "Error interno del servidor.", error = ex.Message });
             }
         }
 
-        public void DeleteProducto(int id)
+
+        [HttpPost("eliminarProducto/{idProducto}")]
+        public IActionResult EliminarProducto(int idProducto)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            try
             {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand("DELETE FROM Productos WHERE Id = @Id", conn))
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    cmd.ExecuteNonQuery();
+                    connection.Open();
+
+                    // Realizamos la "baja lógica" en lugar de un DELETE
+                    var cmd = new SqlCommand(
+                        "UPDATE Productos SET estado = 0 WHERE idProducto = @idProducto",
+                        connection
+                    );
+
+                    cmd.Parameters.AddWithValue("@idProducto", idProducto);
+
+                    var rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        // Retornamos 204 (No Content) indicando éxito sin contenido adicional
+                        return NoContent();
+                    }
+                    else
+                    {
+                        return NotFound(new { mensaje = "Producto no encontrado." });
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = "Error interno del servidor.", error = ex.Message });
+            }
         }
+
     }
 
 }

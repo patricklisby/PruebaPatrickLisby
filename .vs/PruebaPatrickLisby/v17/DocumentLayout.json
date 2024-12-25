@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{1B29D0F9-4C1B-4EB8-AFBB-AC735DE4450E}|PruebaPatrickLisby.csproj|solutionrelative:controllers\\productocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1B29D0F9-4C1B-4EB8-AFBB-AC735DE4450E}|PruebaPatrickLisby.csproj|c:\\programming\\pruebapatricklisby\\models\\producto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B29D0F9-4C1B-4EB8-AFBB-AC735DE4450E}|PruebaPatrickLisby.csproj|solutionrelative:models\\producto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1B29D0F9-4C1B-4EB8-AFBB-AC735DE4450E}|PruebaPatrickLisby.csproj|c:\\programming\\pruebapatricklisby\\controllers\\categoriacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1B29D0F9-4C1B-4EB8-AFBB-AC735DE4450E}|PruebaPatrickLisby.csproj|solutionrelative:controllers\\categoriacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -22,8 +26,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 558,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Producto.cs",
+              "DocumentMoniker": "C:\\Programming\\PruebaPatrickLisby\\Models\\Producto.cs",
+              "RelativeDocumentMoniker": "Models\\Producto.cs",
+              "ToolTip": "C:\\Programming\\PruebaPatrickLisby\\Models\\Producto.cs",
+              "RelativeToolTip": "Models\\Producto.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAxwAwAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-25T02:44:04.49Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
@@ -48,26 +66,27 @@
               "RelativeDocumentMoniker": "Controllers\\ProductoController.cs",
               "ToolTip": "C:\\Programming\\PruebaPatrickLisby\\Controllers\\ProductoController.cs",
               "RelativeToolTip": "Controllers\\ProductoController.cs",
-              "ViewState": "AQIAABgAAAAAAAAAAAAYwCMAAABVAAAA",
+              "ViewState": "AQIAALQAAAAAAAAAAAAuwK4AAAA/AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-25T01:42:56.429Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CategoriaController.cs",
               "DocumentMoniker": "C:\\Programming\\PruebaPatrickLisby\\Controllers\\CategoriaController.cs",
               "RelativeDocumentMoniker": "Controllers\\CategoriaController.cs",
               "ToolTip": "C:\\Programming\\PruebaPatrickLisby\\Controllers\\CategoriaController.cs",
               "RelativeToolTip": "Controllers\\CategoriaController.cs",
-              "ViewState": "AQIAAAIAAAAAAAAAAAAUwBUAAAAiAAAA",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAgwCUAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T18:43:56.291Z"
+              "WhenOpened": "2024-12-24T18:43:56.291Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "PermisoController.cs",
               "DocumentMoniker": "C:\\Programming\\PruebaPatrickLisby\\Controllers\\PermisoController.cs",
               "RelativeDocumentMoniker": "Controllers\\PermisoController.cs",
