@@ -60,7 +60,7 @@ namespace PruebaPatrickLisby.Controllers
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM Productos WHERE IdProducto = @idProducto", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Productos WHERE idProducto = @idProducto", conn);
                     cmd.Parameters.AddWithValue("@idProducto", idProducto);
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
@@ -100,27 +100,27 @@ namespace PruebaPatrickLisby.Controllers
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(@"
-    INSERT INTO Productos (
-        descripcionProducto, 
-        detallesProducto, 
-        precioProducto, 
-        cantidadProducto, 
-        fechaPublicacion, 
-        idCategoria, 
-        idCedulaUsuarioRegistra,
-        estado
-    )
-    VALUES (
-        @descripcionProducto, 
-        @detallesProducto, 
-        @precioProducto, 
-        @cantidadProducto, 
-        @fechaPublicacion, 
-        @idCategoria, 
-        @idCedulaUsuarioRegistra,
-        @estado
-    )",
-     conn);
+                    INSERT INTO Productos (
+                    descripcionProducto, 
+                    detallesProducto, 
+                    precioProducto, 
+                    cantidadProducto, 
+                    fechaPublicacion, 
+                    idCategoria, 
+                    idCedulaUsuarioRegistra,
+                    estado
+                    )
+                    VALUES (
+                    @descripcionProducto, 
+                    @detallesProducto, 
+                    @precioProducto, 
+                    @cantidadProducto, 
+                    @fechaPublicacion, 
+                    @idCategoria, 
+                    @idCedulaUsuarioRegistra,
+                    @estado
+                    )",
+                    conn);
 
                 cmd.Parameters.AddWithValue("@descripcionProducto", producto.descripcionProducto);
                 cmd.Parameters.AddWithValue("@detallesProducto", producto.detallesProducto);
