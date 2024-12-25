@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PruebaPatrickLisby.Models
 {
@@ -9,6 +10,7 @@ namespace PruebaPatrickLisby.Models
 
         // Relación con Productos
         [JsonIgnore]
-        public ICollection<Producto> Productos { get; set; }
+        [NotMapped]
+        public ICollection<Producto>? Productos { get; set; }
     }
 }

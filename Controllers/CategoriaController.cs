@@ -1,30 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using System;
-using System.Data;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using PruebaPatrickLisby.Models;
+using System.Collections.Generic;
 
 namespace PruebaPatrickLisby.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CategoriasController : Controller
+    public class CategoriaController : Controller
     {
         private readonly string _connectionString;
 
-        public CategoriasController(IConfiguration configuration)
+        public CategoriaController(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        [HttpGet("getAllCategorias")]
-        public IActionResult GetProductos()
+        [HttpGet("obtenerCategorias")]
+        public IActionResult ObtenerCategorias()
         {
             try
             {
-                List<Producto> productos = new List<Producto>();
+                List<Categoria> categorias = new List<Categoria>();
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
@@ -32,22 +30,22 @@ namespace PruebaPatrickLisby.Controllers
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        productos.Add(new Producto
+                        categorias.Add(new Categoria
                         {
-                            idProducto = (int)reader["idCategoria"],
-                            descripcionProducto = reader["DescripcionCategoria"].ToString(),
+                            idCategoria = (int)reader["idCategoria"],
+                            descripcionCategoria = reader["descripcionCategoria"].ToString(),
                         });
                     }
                 }
-                return Ok(productos);
+                return Ok(categorias);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error al obtener productos: {ex.Message}");
             }
         }
-        [HttpGet("{id}")]
-        public IActionResult GetCategoria(int id)
+        [HttpGet("obtenerCategoriaId/{idCategoria}")]
+        public IActionResult ObtenerCategoriaId(int idCategoria)
         {
             try
             {
@@ -55,17 +53,17 @@ namespace PruebaPatrickLisby.Controllers
                 {
                     connection.Open();
 
-                    var command = new SqlCommand("SELECT * FROM Categorias WHERE Id = @Id", connection);
-                    command.Parameters.AddWithValue("@Id", id);
+                    var cmd = new SqlCommand("SELECT * FROM Categorias WHERE idCategoria = @idCategoria", connection);
+                    cmd.Parameters.AddWithValue("@idCategoria", idCategoria);
 
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
                             var categoria = new
                             {
-                                Id = reader["Id"],
-                                Nombre = reader["Nombre"]
+                                idCategoria = reader["idCategoria"],
+                                descripcionCategoria = reader["descripcionCategoria"]
                             };
                             return Ok(categoria);
                         }
@@ -83,7 +81,7 @@ namespace PruebaPatrickLisby.Controllers
         }
 
         [HttpPost("crearCategoria")]
-        public IActionResult CreateCategoria([FromBody] dynamic categoria)
+        public IActionResult CrearCategoria([FromBody] Categoria categoria)
         {
             try
             {
@@ -91,12 +89,12 @@ namespace PruebaPatrickLisby.Controllers
                 {
                     connection.Open();
 
-                    var command = new SqlCommand("INSERT INTO Categorias (DescripcionCategoria) VALUES (@DescripcionCategoria); SELECT SCOPE_IDENTITY();", connection);
-                    command.Parameters.AddWithValue("@DescripcionCategoria", (string)categoria.DescripcionCategoria);
+                    var cmd = new SqlCommand("INSERT INTO Categorias (descripcionCategoria) VALUES (@descripcionCategoria); SELECT SCOPE_IDENTITY();", connection);
+                    cmd.Parameters.AddWithValue("@descripcionCategoria", (string)categoria.descripcionCategoria);
 
-                    var idNuevo = Convert.ToInt32(command.ExecuteScalar());
+                    var idNuevo = Convert.ToInt32(cmd.ExecuteScalar());
 
-                    return CreatedAtAction(nameof(GetCategoria), new { idCategoria = idNuevo }, new { idCategoria = idNuevo, DescripcionCategoria = categoria.DescripcionCategoria });
+                    return CreatedAtAction(nameof(ObtenerCategorias), new { idCategoria = idNuevo }, new { idCategoria = idNuevo, descripcionCategoria = categoria.descripcionCategoria });
                 }
             }
             catch (Exception ex)
@@ -105,8 +103,8 @@ namespace PruebaPatrickLisby.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateCategoria(int id, [FromBody] dynamic categoria)
+        [HttpPut("editarCategoria/{idCategoria}")]
+        public IActionResult UpdateCategoria(int idCategoria, [FromBody] Categoria categoria)
         {
             try
             {
@@ -114,9 +112,9 @@ namespace PruebaPatrickLisby.Controllers
                 {
                     connection.Open();
 
-                    var command = new SqlCommand("UPDATE Categorias SET DescripcionCategoria = @DescripcionCategoria WHERE idCategoria = @idCategoria", connection);
-                    command.Parameters.AddWithValue("@DescripcionCategoria", (string)categoria.DescripcionCategoria);
-                    command.Parameters.AddWithValue("@Id", id);
+                    var command = new SqlCommand("UPDATE Categorias SET descripcionCategoria = @descripcionCategoria WHERE idCategoria = @idCategoria", connection);
+                    command.Parameters.AddWithValue("@descripcionCategoria", (string)categoria.descripcionCategoria);
+                    command.Parameters.AddWithValue("@idCategoria", idCategoria);
 
                     var rowsAffected = command.ExecuteNonQuery();
 
@@ -136,8 +134,8 @@ namespace PruebaPatrickLisby.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteCategoria(int id)
+        [HttpDelete("eliminarCategoria/{idCategoria}")]
+        public IActionResult EliminarCategoria(int idCategoria)
         {
             try
             {
@@ -145,8 +143,8 @@ namespace PruebaPatrickLisby.Controllers
                 {
                     connection.Open();
 
-                    var command = new SqlCommand("DELETE FROM Categorias WHERE Id = @Id", connection);
-                    command.Parameters.AddWithValue("@Id", id);
+                    var command = new SqlCommand("DELETE FROM Categorias WHERE idCategoria = @idCategoria", connection);
+                    command.Parameters.AddWithValue("@idCategoria", idCategoria);
 
                     var rowsAffected = command.ExecuteNonQuery();
 

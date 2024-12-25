@@ -51,8 +51,8 @@ namespace PruebaPatrickLisby.Controllers
             }
         }
 
-        [HttpGet("obtenerProductoId/{id}")]
-        public IActionResult ObtenerProductoId(int id)
+        [HttpGet("obtenerProductoId/{idProducto}")]
+        public IActionResult ObtenerProductoId(int idProducto)
         {
             try
             {
@@ -60,8 +60,8 @@ namespace PruebaPatrickLisby.Controllers
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM Productos WHERE IdProducto = @Id", conn);
-                    cmd.Parameters.AddWithValue("@Id", id);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Productos WHERE IdProducto = @idProducto", conn);
+                    cmd.Parameters.AddWithValue("@idProducto", idProducto);
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
