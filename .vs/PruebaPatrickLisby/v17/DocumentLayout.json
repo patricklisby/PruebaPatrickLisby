@@ -11,10 +11,6 @@
       "RelativeMoniker": "D:0:0:{1B29D0F9-4C1B-4EB8-AFBB-AC735DE4450E}|PruebaPatrickLisby.csproj|solutionrelative:controllers\\categoriacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1B29D0F9-4C1B-4EB8-AFBB-AC735DE4450E}|PruebaPatrickLisby.csproj|c:\\programming\\pruebapatricklisby\\controllers\\pruebacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B29D0F9-4C1B-4EB8-AFBB-AC735DE4450E}|PruebaPatrickLisby.csproj|solutionrelative:controllers\\pruebacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1B29D0F9-4C1B-4EB8-AFBB-AC735DE4450E}|PruebaPatrickLisby.csproj|c:\\programming\\pruebapatricklisby\\controllers\\permisocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1B29D0F9-4C1B-4EB8-AFBB-AC735DE4450E}|PruebaPatrickLisby.csproj|solutionrelative:controllers\\permisocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -59,19 +55,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PruebaController.cs",
-              "DocumentMoniker": "C:\\Programming\\PruebaPatrickLisby\\Controllers\\PruebaController.cs",
-              "RelativeDocumentMoniker": "Controllers\\PruebaController.cs",
-              "ToolTip": "C:\\Programming\\PruebaPatrickLisby\\Controllers\\PruebaController.cs",
-              "RelativeToolTip": "Controllers\\PruebaController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T00:55:18.863Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "CategoriaController.cs",
               "DocumentMoniker": "C:\\Programming\\PruebaPatrickLisby\\Controllers\\CategoriaController.cs",
@@ -80,12 +63,11 @@
               "RelativeToolTip": "Controllers\\CategoriaController.cs",
               "ViewState": "AQIAAAIAAAAAAAAAAAAUwBUAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T18:43:56.291Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-24T18:43:56.291Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "PermisoController.cs",
               "DocumentMoniker": "C:\\Programming\\PruebaPatrickLisby\\Controllers\\PermisoController.cs",
               "RelativeDocumentMoniker": "Controllers\\PermisoController.cs",
@@ -93,8 +75,7 @@
               "RelativeToolTip": "Controllers\\PermisoController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T00:56:57.109Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-25T00:56:57.109Z"
             }
           ]
         }
