@@ -142,6 +142,7 @@
                     mostrarAlerta('error', 'Error al cargar los productos.');
                 }
             }
+            window.cargarProductos = cargarProductos;
 
             // Crear tarjetas de productos
             function crearProductoCard(producto) {
@@ -157,7 +158,7 @@
                     <div class="p-4 flex-grow flex flex-col justify-between">
                         <div>
                         <p class="text-base font-bold text-gray-800 break-words whitespace-normal"><strong>${producto.descripcionProducto}</strong></p>
-
+                                    <p class="text-sm text-gray-600"><strong>Categoría: </strong>${producto.descripcionCategoria}</p>
                             <p class="text-sm text-gray-600">${producto.detallesProducto}</p>
                             <p class="text-gray-800 font-bold mt-2">Cantidad Disponible: ${producto.cantidadProducto}</p>
                             <p class="text-gray-800 font-bold mt-2">Precio: ₡${producto.precioProducto.toFixed(2)}</p>
@@ -179,7 +180,7 @@
                 });
                 return card;
             }
-
+            
             async function cargarVistaEditar(idProducto) {
                 try {
                     const response = await fetch(`/api/Producto/obtenerProductoId/${idProducto}`);
@@ -325,6 +326,12 @@
                 btnCrearProducto.addEventListener("click", cargarVistaCrear);
             }
 
+            const btnGestionarCategorias = document.getElementById("btnGestionarCategorias");
+            if (btnGestionarCategorias) {
+                btnGestionarCategorias.addEventListener("click", () => {
+                    cargarVistaGestionarCategorias();
+                });
+            }
 
             // Cargar productos al inicio
             cargarProductos();
