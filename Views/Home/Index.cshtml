@@ -156,20 +156,102 @@
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between">
                         <div>
-                            <h2 class="text-lg font-bold text-gray-800 truncate">${producto.descripcionProducto}</h2>
+                        <p class="text-base font-bold text-gray-800 break-words whitespace-normal"><strong>${producto.descripcionProducto}</strong></p>
+
                             <p class="text-sm text-gray-600">${producto.detallesProducto}</p>
                             <p class="text-gray-800 font-bold mt-2">Cantidad Disponible: ${producto.cantidadProducto}</p>
                             <p class="text-gray-800 font-bold mt-2">Precio: ₡${producto.precioProducto.toFixed(2)}</p>
                         </div>
-                                ${esAdmin ? `
-                    <button data-id="${producto.idProducto}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-900 w-full">
-                        Editar
-                    </button>
-                    ` : ''}
-                    </div>
+                         <div class="flex flex-col gap-2">
+            ${esAdmin ? `
+                <button data-id="${producto.idProducto}" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-900 w-full">
+                    Editar 
+                </button>
+            ` : ''}
+            <button  class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-900 w-full" disabled>
+                Agregar al carrito
+            </button>
+        </div>
                 `;
+
+                card.querySelector("button").addEventListener("click", () => {
+                    cargarVistaEditar(producto.idProducto);
+                });
                 return card;
             }
+
+            async function cargarVistaEditar(idProducto) {
+                try {
+                    const response = await fetch(`/api/Producto/obtenerProductoId/${idProducto}`);
+                    if (!response.ok) throw new Error("Error al obtener el producto.");
+
+                    const producto = await response.json();
+                    const form = `
+                    <h2 class="text-lg font-bold mb-4">Editar Producto</h2>
+                    <form id="editarProductoForm" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Descripción</label>
+                            <input type="text" name="descripcionProducto" id="descripcionProducto" class="w-full border-gray-300 rounded-md shadow-sm" value="${producto.descripcionProducto}" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Detalles</label>
+                            <textarea name="detallesProducto" id="detallesProducto" class="w-full border-gray-300 rounded-md shadow-sm" rows="4">${producto.detallesProducto}</textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Precio</label>
+                            <input type="number" name="precioProducto" id="precioProducto" class="w-full border-gray-300 rounded-md shadow-sm" value="${producto.precioProducto}" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Cantidad</label>
+                            <input type="number" name="cantidadProducto" id="cantidadProducto" class="w-full border-gray-300 rounded-md shadow-sm" value="${producto.cantidadProducto}" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Categoría</label>
+                            <select name="idCategoria" id="idCategoria" class="w-full border-gray-300 rounded-md shadow-sm"></select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Nueva Imagen</label>
+                            <input type="file" name="imagen" id="imagen" class="w-full border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Guardar</button>
+                        </div>
+                    </form>
+                `;
+
+                    abrirModal(form);
+                    await cargarCategorias("idCategoria", producto.idCategoria);
+
+                    const formElement = document.getElementById("editarProductoForm");
+                    formElement.addEventListener("submit", async (e) => {
+                        e.preventDefault();
+                        const formData = new FormData(formElement);
+
+                        try {
+                            const updateResponse = await fetch(`/api/Producto/editarProducto/${idProducto}`, {
+                                method: "PUT",
+                                body: formData,
+                            });
+
+                            if (updateResponse.ok) {
+                                mostrarAlerta('success', 'Producto editado exitosamente.');
+                                modalContainer.classList.add("hidden");
+                                cargarProductos();
+                            } else {
+                                const error = await updateResponse.json();
+                                mostrarAlerta('error', `Error al editar el producto: ${error.mensaje}`);
+                            }
+                        } catch (error) {
+                            console.error("Error al enviar el formulario:", error);
+                            mostrarAlerta('error', 'Error al procesar la solicitud.');
+                        }
+                    });
+                } catch (error) {
+                    console.error("Error al cargar los datos del producto:", error);
+                    mostrarAlerta('error', 'Error al cargar los datos del producto.');
+                }
+            }
+
 
             // Cargar vista de crear producto
             async function cargarVistaCrear() {
@@ -242,6 +324,7 @@
             if (btnCrearProducto) {
                 btnCrearProducto.addEventListener("click", cargarVistaCrear);
             }
+
 
             // Cargar productos al inicio
             cargarProductos();

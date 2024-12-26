@@ -13,8 +13,20 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\7925017d-dd73-4dd4-abde-84da724c6d74.jpg",
+      "PackagePath": "staticwebassets\\imagenes\\7925017d-dd73-4dd4-abde-84da724c6d74.jpg"
+    },
+    {
       "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\default.webp",
       "PackagePath": "staticwebassets\\imagenes\\default.webp"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\ea5bae86-a108-447b-9b25-474f53ee7072.jpg",
+      "PackagePath": "staticwebassets\\imagenes\\ea5bae86-a108-447b-9b25-474f53ee7072.jpg"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\fbecc4ab-7c52-48db-a5ad-0b2f4768bf88.jpg",
+      "PackagePath": "staticwebassets\\imagenes\\fbecc4ab-7c52-48db-a5ad-0b2f4768bf88.jpg"
     },
     {
       "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\categorias.js",
@@ -267,6 +279,10 @@
     {
       "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\logo.png",
       "PackagePath": "staticwebassets\\logo.png"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\logoApp.webp",
+      "PackagePath": "staticwebassets\\logoApp.webp"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.PruebaPatrickLisby.Microsoft.AspNetCore.StaticWebAssets.props",

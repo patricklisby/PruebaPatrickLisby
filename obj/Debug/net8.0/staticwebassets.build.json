@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "XEbZjEpP9lNZc60NEyLMkmGgwzQOR1O3Sm1ubadLCX0=",
+  "Hash": "08rx/TMRj0JJ2UTrn8hwAc392OKVMi1bdX4yabW3FoU=",
   "Source": "PruebaPatrickLisby",
   "BasePath": "_content/PruebaPatrickLisby",
   "Mode": "Default",
@@ -93,6 +93,25 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\7925017d-dd73-4dd4-abde-84da724c6d74.jpg",
+      "SourceId": "PruebaPatrickLisby",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
+      "BasePath": "_content/PruebaPatrickLisby",
+      "RelativePath": "imagenes/7925017d-dd73-4dd4-abde-84da724c6d74.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imagenes\\7925017d-dd73-4dd4-abde-84da724c6d74.jpg"
+    },
+    {
       "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\default.webp",
       "SourceId": "PruebaPatrickLisby",
       "SourceType": "Discovered",
@@ -110,6 +129,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\imagenes\\default.webp"
+    },
+    {
+      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\ea5bae86-a108-447b-9b25-474f53ee7072.jpg",
+      "SourceId": "PruebaPatrickLisby",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
+      "BasePath": "_content/PruebaPatrickLisby",
+      "RelativePath": "imagenes/ea5bae86-a108-447b-9b25-474f53ee7072.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imagenes\\ea5bae86-a108-447b-9b25-474f53ee7072.jpg"
+    },
+    {
+      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\fbecc4ab-7c52-48db-a5ad-0b2f4768bf88.jpg",
+      "SourceId": "PruebaPatrickLisby",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
+      "BasePath": "_content/PruebaPatrickLisby",
+      "RelativePath": "imagenes/fbecc4ab-7c52-48db-a5ad-0b2f4768bf88.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imagenes\\fbecc4ab-7c52-48db-a5ad-0b2f4768bf88.jpg"
     },
     {
       "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\categorias.js",
@@ -1307,6 +1364,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\logo.png"
+    },
+    {
+      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\logoApp.webp",
+      "SourceId": "PruebaPatrickLisby",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
+      "BasePath": "_content/PruebaPatrickLisby",
+      "RelativePath": "logoApp.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\logoApp.webp"
     }
   ]
 }
