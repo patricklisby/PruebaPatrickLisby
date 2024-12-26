@@ -1,4 +1,4 @@
-﻿namespace PruebaPatrickLisby.Controllers
+﻿namespace PruebaPatrickLisby.Models
 {
     public class UserLoginRequest
     {

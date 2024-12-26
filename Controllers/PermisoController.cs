@@ -7,18 +7,30 @@ using Microsoft.Extensions.Configuration;
 
 namespace PruebaPatrickLisby.Controllers
 {
+    /// <summary>
+    /// Controlador para manejar las operaciones CRUD relacionadas con los permisos.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class PermisoController : Controller
     {
         private readonly string _connectionString;
 
+        /// <summary>
+        /// Constructor que inicializa el controlador con la configuración de conexión a la base de datos.
+        /// </summary>
+        /// <param name="configuration">Proporciona acceso a las configuraciones de la aplicación.</param>
         public PermisoController(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
-
-        public DataTable GetAllPermisos()
+        /// <summary>
+        /// Obtiene todos los permisos de la base de datos.
+        /// </summary>
+        /// <returns>
+        /// Un objeto `DataTable` con la información de todos los permisos.
+        /// </returns>
+        public DataTable ObtenerPermisos()
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -28,8 +40,11 @@ namespace PruebaPatrickLisby.Controllers
                 return dt;
             }
         }
-
-        public void AddPermiso(string nombre)
+        /// <summary>
+        /// Agrega un nuevo permiso a la base de datos.
+        /// </summary>
+        /// <param name="nombre">Nombre del permiso a agregar.</param>
+        public void CrearPermiso(string nombre)
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -41,8 +56,12 @@ namespace PruebaPatrickLisby.Controllers
                 }
             }
         }
-
-        public void UpdatePermiso(int id, string nombre)
+        /// <summary>
+        /// Actualiza un permiso existente en la base de datos.
+        /// </summary>
+        /// <param name="id">ID del permiso a actualizar.</param>
+        /// <param name="nombre">Nuevo nombre del permiso.</param>
+        public void EditarPermiso(int id, string nombre)
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -55,8 +74,11 @@ namespace PruebaPatrickLisby.Controllers
                 }
             }
         }
-
-        public void DeletePermiso(int id)
+        /// <summary>
+        /// Elimina un permiso de la base de datos.
+        /// </summary>
+        /// <param name="id">ID del permiso a eliminar.</param>
+        public void EliminarPermiso(int id)
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {

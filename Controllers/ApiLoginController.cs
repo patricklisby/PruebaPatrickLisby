@@ -4,17 +4,34 @@ using PruebaPatrickLisby.Models;
 
 namespace PruebaPatrickLisby.Controllers
 {
+    /// <summary>
+    /// Controlador para manejar las operaciones de autenticación de usuarios, como inicio y cierre de sesión.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ApiLoginController : ControllerBase
     {
         private readonly string _connectionString;
 
+        // <summary>
+        /// Constructor que inicializa el controlador con la configuración de conexión a la base de datos.
+        /// </summary>
+        /// <param name="configuration">Proporciona acceso a las configuraciones de la aplicación.</param>
         public ApiLoginController(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        /// <summary>
+        /// Autentica al usuario con las credenciales proporcionadas.
+        /// </summary>
+        /// <param name="loginRequest">Objeto que contiene el correo y la contraseña del usuario.</param>
+        /// <returns>
+        /// - `200 OK`: Si las credenciales son válidas y el usuario está activo.
+        /// - `400 Bad Request`: Si los datos proporcionados son incompletos.
+        /// - `401 Unauthorized`: Si las credenciales son incorrectas o el usuario está inactivo.
+        /// - `500 Internal Server Error`: Si ocurre un error en el servidor.
+        /// </returns>
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginRequest loginRequest)
         {
@@ -99,6 +116,13 @@ namespace PruebaPatrickLisby.Controllers
             }
         }
 
+        /// <summary>
+        /// Cierra la sesión del usuario eliminando los datos almacenados en la sesión.
+        /// </summary>
+        /// <returns>
+        /// - `200 OK`: Si la sesión se cierra correctamente.
+        /// - `500 Internal Server Error`: Si ocurre un error al intentar cerrar la sesión.
+        /// </returns>
         [HttpPost("logout")]
         public IActionResult Logout()
         {

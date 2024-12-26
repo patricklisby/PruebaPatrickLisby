@@ -11,12 +11,19 @@ namespace PruebaPatrickLisby.Controllers
     public class ProductoController : Controller
     {
         private readonly string _connectionString;
-
+        /// <summary>
+        /// Constructor que inicializa la conexión a la base de datos.
+        /// </summary>
+        /// <param name="configuration">Configuración de la aplicación que contiene la cadena de conexión.</param>
         public ProductoController(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        /// <summary>
+        /// Obtiene una lista de todos los productos con su información asociada.
+        /// </summary>
+        /// <returns>Una lista de productos o un mensaje de error si falla la operación.</returns>
         [HttpGet("obtenerProductos")]
         public IActionResult ObtenerProductos()
         {
@@ -75,9 +82,11 @@ namespace PruebaPatrickLisby.Controllers
             }
         }
 
-
-
-
+        /// <summary>
+        /// Obtiene los detalles de un producto específico por su ID.
+        /// </summary>
+        /// <param name="idProducto">ID del producto a buscar.</param>
+        /// <returns>El producto encontrado o un mensaje de error si no se encuentra.</returns>
         [HttpGet("obtenerProductoId/{idProducto}")]
         public IActionResult ObtenerProductoId(int idProducto)
         {
@@ -118,6 +127,12 @@ namespace PruebaPatrickLisby.Controllers
             }
         }
 
+        /// <summary>
+        /// Crea un nuevo producto en la base de datos y opcionalmente guarda una imagen asociada.
+        /// </summary>
+        /// <param name="producto">Modelo del producto a crear.</param>
+        /// <param name="imagen">Archivo de imagen asociado al producto (opcional).</param>
+        /// <returns>Mensaje de éxito o error si ocurre algún problema.</returns>
         [HttpPost("crearProducto")]
         public IActionResult CrearProducto([FromForm] Producto producto, [FromForm] IFormFile? imagen)
         {
@@ -238,7 +253,13 @@ namespace PruebaPatrickLisby.Controllers
                 return StatusCode(500, new { mensaje = $"Error al crear producto: {ex.Message}" });
             }
         }
-
+        /// <summary>
+        /// Edita un  producto en la base de datos y opcionalmente guarda o modifica una imagen asociada.
+        /// </summary>
+        /// <param name="idProducto">Id del producto a editar.</param>
+        /// <param name="producto">Modelo del producto a editar.</param>
+        /// <param name="imagen">Archivo de imagen asociado al producto (opcional).</param>
+        /// <returns>Mensaje de éxito o error si ocurre algún problema.</returns>
         [HttpPut("editarProducto/{idProducto}")]
         public IActionResult EditarProducto(int idProducto, [FromForm] Producto producto, [FromForm] IFormFile? imagen)
         {
@@ -409,6 +430,11 @@ namespace PruebaPatrickLisby.Controllers
         }
 
 
+        /// <summary>
+        /// Realiza una eliminación lógica de un producto, cambiando su estado a 0.
+        /// </summary>
+        /// <param name="idProducto">ID del producto a eliminar.</param>
+        /// <returns>Mensaje indicando el éxito o error de la operación.</returns>
         [HttpPost("eliminarProducto/{idProducto}")]
         public IActionResult EliminarProducto(int idProducto)
         {

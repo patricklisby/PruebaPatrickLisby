@@ -6,17 +6,31 @@ using System.Collections.Generic;
 
 namespace PruebaPatrickLisby.Controllers
 {
+    /// <summary>
+    /// Controlador que maneja las operaciones relacionadas con las categorías.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class CategoriaController : Controller
     {
         private readonly string _connectionString;
 
+        /// <summary>
+        /// Constructor que inicializa el controlador con la configuración de conexión a la base de datos.
+        /// </summary>
+        /// <param name="configuration">Proporciona acceso a las configuraciones de la aplicación.</param>
         public CategoriaController(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        /// <summary>
+        /// Obtiene todas las categorías de la base de datos.
+        /// </summary>
+        /// <returns>
+        /// - `200 OK`: Devuelve una lista de todas las categorías.
+        /// - `500 Internal Server Error`: Si ocurre un error interno.
+        /// </returns>
         [HttpGet("obtenerCategorias")]
         public IActionResult ObtenerCategorias()
         {
@@ -44,6 +58,15 @@ namespace PruebaPatrickLisby.Controllers
                 return StatusCode(500, $"Error al obtener productos: {ex.Message}");
             }
         }
+        /// <summary>
+        /// Obtiene una categoría específica por su ID.
+        /// </summary>
+        /// <param name="idCategoria">ID de la categoría a buscar.</param>
+        /// <returns>
+        /// - `200 OK`: Devuelve los detalles de la categoría encontrada.
+        /// - `404 Not Found`: Si la categoría no existe.
+        /// - `500 Internal Server Error`: Si ocurre un error interno.
+        /// </returns>
         [HttpGet("obtenerCategoriaId/{idCategoria}")]
         public IActionResult ObtenerCategoriaId(int idCategoria)
         {
@@ -80,6 +103,14 @@ namespace PruebaPatrickLisby.Controllers
             }
         }
 
+        /// <summary>
+        /// Crea una nueva categoría.
+        /// </summary>
+        /// <param name="categoria">Objeto con la descripción de la categoría.</param>
+        /// <returns>
+        /// - `201 Created`: Si la categoría se crea exitosamente.
+        /// - `500 Internal Server Error`: Si ocurre un error interno.
+        /// </returns>
         [HttpPost("crearCategoria")]
         public IActionResult CrearCategoria([FromBody] Categoria categoria)
         {
@@ -103,6 +134,16 @@ namespace PruebaPatrickLisby.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza una categoría existente.
+        /// </summary>
+        /// <param name="idCategoria">ID de la categoría a actualizar.</param>
+        /// <param name="categoria">Objeto con los datos actualizados de la categoría.</param>
+        /// <returns>
+        /// - `204 No Content`: Si la categoría se actualiza exitosamente.
+        /// - `404 Not Found`: Si la categoría no existe.
+        /// - `500 Internal Server Error`: Si ocurre un error interno.
+        /// </returns>
         [HttpPut("editarCategoria/{idCategoria}")]
         public IActionResult UpdateCategoria(int idCategoria, [FromBody] Categoria categoria)
         {
@@ -134,6 +175,15 @@ namespace PruebaPatrickLisby.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina una categoría existente.
+        /// </summary>
+        /// <param name="idCategoria">ID de la categoría a eliminar.</param>
+        /// <returns>
+        /// - `204 No Content`: Si la categoría se elimina exitosamente.
+        /// - `404 Not Found`: Si la categoría no existe.
+        /// - `500 Internal Server Error`: Si ocurre un error interno.
+        /// </returns>
         [HttpDelete("eliminarCategoria/{idCategoria}")]
         public IActionResult EliminarCategoria(int idCategoria)
         {

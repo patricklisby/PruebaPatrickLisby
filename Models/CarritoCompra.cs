@@ -12,6 +12,7 @@ namespace PruebaPatrickLisby.Models
         public Producto Producto { get; set; }
 
         public int idCedulaUsuarioCompra { get; set; }
+        public int cantidadProducto { get; set; }
         [JsonIgnore]
         public Usuario UsuarioCompra { get; set; }
 
