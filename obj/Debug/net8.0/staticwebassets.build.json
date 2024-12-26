@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "2Ljh1MocS1b7FeSb6A7Y+9YZALWEGQmdYVYtDtxP6tc=",
+  "Hash": "+Vo2jWfTtXGGjpcmJaEprPEFZPIIkAiR/uDo5RD9Pk8=",
   "Source": "PruebaPatrickLisby",
   "BasePath": "_content/PruebaPatrickLisby",
   "Mode": "Default",
@@ -148,6 +148,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\imagenes\\64a6fbcc-0da5-4645-ad48-53616a3e17bb.jpg"
+    },
+    {
+      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\683a785c-3e13-4df3-9f0c-b9fafb7aff2b.png",
+      "SourceId": "PruebaPatrickLisby",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
+      "BasePath": "_content/PruebaPatrickLisby",
+      "RelativePath": "imagenes/683a785c-3e13-4df3-9f0c-b9fafb7aff2b.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imagenes\\683a785c-3e13-4df3-9f0c-b9fafb7aff2b.png"
     },
     {
       "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\985e0081-af55-4e69-887b-18b09d96b9f0.png",
