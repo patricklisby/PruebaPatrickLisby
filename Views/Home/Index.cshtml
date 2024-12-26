@@ -8,6 +8,9 @@
         <button id="btnCrearProducto" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
             Crear Producto
         </button>
+        <button id="btnGestionarCategorias" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+            Gestionar Categorías
+        </button>
     </div>
 
     <div id="productosContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -27,10 +30,13 @@
     </div>
 </div>
 
+
+
 <!-- Contenedor para alertas -->
 <div id="alertContainer" class="fixed top-4 right-4 space-y-4 z-50"></div>
 
 @section Scripts {
+    <script src="/js/categorias.js"></script>
   <script>
         document.addEventListener("DOMContentLoaded", () => {
             const apiBaseUrl = '/api/Producto';
@@ -77,22 +83,26 @@
                     mostrarAlerta('error', 'Error al cargar los productos.');
                 }
             }
+            // Exponer la función cargarProductos al objeto global
+          
 
             function crearProductoCard(producto) {
                 const card = document.createElement("div");
                 card.className = "bg-white rounded-lg shadow-md overflow-hidden flex flex-col justify-between";
 
-                const imagenUrl = producto.ImagenUrl || "/imagenes/default.png";
+                const imagenUrl = producto.ImagenUrl || "/imagenes/default.webp";
 
                 card.innerHTML = `
                     <!-- Imagen con una proporción más adecuada -->
                     <div class="aspect-w-3 aspect-h-4 bg-gray-200">
-                        <img src="${producto.imagenUrl}" alt="${producto.descripcionProducto}" class="object-cover w-full h-full" onerror="this.onerror=null;this.src='/imagenes/default.png';">
+                        <img src="${producto.imagenUrl}" alt="${producto.descripcionProducto}" class="object-cover w-full h-full" onerror="this.onerror=null;this.src='/imagenes/default.webp';">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between">
                         <div>
                             <h2 class="text-lg font-bold text-gray-800 truncate">${producto.descripcionProducto}</h2>
                             <p class="text-sm text-gray-600">${producto.detallesProducto}</p>
+                            <p class="text-gray-800 font-bold mt-2">Categoría: ${producto.descripcionCategoria}</p>
+                                    <p class="text-gray-800 font-bold mt-2">Cantidad Disponible: ${producto.cantidadProducto}</p>
                             <p class="text-gray-800 font-bold mt-2">Precio: ₡${producto.precioProducto.toFixed(2)}</p>
                         </div>
                         <div class="mt-4">
@@ -109,6 +119,8 @@
 
                 return card;
             }
+
+            window.cargarProductos = cargarProductos;
 
             // Abrir modal
             function abrirModal(content) {
@@ -197,7 +209,7 @@
                         if (response.ok) {
                             mostrarAlerta('success', 'Producto creado exitosamente.');
                             modalContainer.classList.add("hidden");
-                            cargarProductos();
+                            window.cargarProductos();
                         } else {
                             const error = await response.json();
                             mostrarAlerta('error', `Error al crear el producto: ${error.mensaje}`);
@@ -220,7 +232,7 @@
 
                     const producto = await response.json();
 
-                    const imagenUrl = producto.ImagenUrl || '/imagenes/default.png';
+                    const imagenUrl = producto.ImagenUrl ;
 
                     const form = `
                     <h2 class="text-lg font-bold mb-4">Editar Producto</h2>
@@ -246,10 +258,6 @@
                             <select name="idCategoria" id="idCategoria" class="w-full border-gray-300 rounded-md shadow-sm" required>
                                 <option value="">Seleccione una categoría</option>
                             </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Imagen Actual</label>
-                            <img src="${imagenUrl}" alt="Imagen del producto" class="w-32 h-32 object-cover rounded-md border border-gray-300">
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700">Nueva Imagen</label>
@@ -300,7 +308,7 @@
                             if (response.ok) {
                                 mostrarAlerta('success', 'Producto editado exitosamente.');
                                 modalContainer.classList.add("hidden");
-                                cargarProductos();
+                                window.cargarProductos();
                             } else {
                                 const error = await response.json();
                                 mostrarAlerta('error', `Error al editar el producto: ${error.mensaje}`);

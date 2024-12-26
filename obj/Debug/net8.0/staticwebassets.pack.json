@@ -17,10 +17,6 @@
       "PackagePath": "staticwebassets\\imagenes\\54fd906e-dc52-4320-b1b5-778fe67c5275.png"
     },
     {
-      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\58d2e198-77bb-40d8-8686-1907e38f7a69.jpg",
-      "PackagePath": "staticwebassets\\imagenes\\58d2e198-77bb-40d8-8686-1907e38f7a69.jpg"
-    },
-    {
       "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\617451f9-0a03-4123-97b8-fcc3b288e68a.jpg",
       "PackagePath": "staticwebassets\\imagenes\\617451f9-0a03-4123-97b8-fcc3b288e68a.jpg"
     },
@@ -37,8 +33,12 @@
       "PackagePath": "staticwebassets\\imagenes\\ae5ee9b4-caee-44d5-a147-9ceecf093c0c.png"
     },
     {
-      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\default.png",
-      "PackagePath": "staticwebassets\\imagenes\\default.png"
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\bc6b9730-2cfe-4a5d-b2fd-167e4106f8de.png",
+      "PackagePath": "staticwebassets\\imagenes\\bc6b9730-2cfe-4a5d-b2fd-167e4106f8de.png"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\default.webp",
+      "PackagePath": "staticwebassets\\imagenes\\default.webp"
     },
     {
       "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\df8e5103-03fc-4fcb-81b7-7bd010f273ed.png",
@@ -51,6 +51,10 @@
     {
       "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\e4aa97dc-1b5b-4d6a-b6ab-49d629db0c7b.jpg",
       "PackagePath": "staticwebassets\\imagenes\\e4aa97dc-1b5b-4d6a-b6ab-49d629db0c7b.jpg"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\categorias.js",
+      "PackagePath": "staticwebassets\\js\\categorias.js"
     },
     {
       "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\login.js",

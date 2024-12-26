@@ -37,9 +37,11 @@ namespace PruebaPatrickLisby.Controllers
                    p.estado, 
                    p.idCedulaUsuarioRegistra, 
                    p.idImagen,
-                   i.urlImagen
+                   i.urlImagen,
+                   c.descripcionCategoria as descripcionCategoria
             FROM Productos p
-            LEFT JOIN Imagenes i ON p.idImagen = i.idImagen";
+            LEFT JOIN Imagenes i ON p.idImagen = i.idImagen
+            LEFT JOIN Categorias c ON c.idCategoria = p.idCategoria";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -59,7 +61,8 @@ namespace PruebaPatrickLisby.Controllers
                                 estado = (int)reader["estado"],
                                 idCedulaUsuarioRegistra = (int)reader["idCedulaUsuarioRegistra"],
                                 IdImagen = (int)reader["idImagen"],
-                                ImagenUrl = reader["urlImagen"].ToString()
+                                ImagenUrl = reader["urlImagen"].ToString(),
+                                descripcionCategoria = reader["descripcionCategoria"].ToString()
                             });
                         }
                     }

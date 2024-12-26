@@ -39,5 +39,6 @@ namespace PruebaPatrickLisby.Models
         public Imagenes? Imagen { get; set; }
         [NotMapped]
         public string? ImagenUrl { get; set; }
+        public string? descripcionCategoria { get; set; }
     }
 }

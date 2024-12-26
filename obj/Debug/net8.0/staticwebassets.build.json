@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "w0zhZrS7cmaygkNLLpLHwtEb1FAeDcA9HBCutdJCHa8=",
+  "Hash": "2Ljh1MocS1b7FeSb6A7Y+9YZALWEGQmdYVYtDtxP6tc=",
   "Source": "PruebaPatrickLisby",
   "BasePath": "_content/PruebaPatrickLisby",
   "Mode": "Default",
@@ -112,25 +112,6 @@
       "OriginalItemSpec": "wwwroot\\imagenes\\54fd906e-dc52-4320-b1b5-778fe67c5275.png"
     },
     {
-      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\58d2e198-77bb-40d8-8686-1907e38f7a69.jpg",
-      "SourceId": "PruebaPatrickLisby",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
-      "BasePath": "_content/PruebaPatrickLisby",
-      "RelativePath": "imagenes/58d2e198-77bb-40d8-8686-1907e38f7a69.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\imagenes\\58d2e198-77bb-40d8-8686-1907e38f7a69.jpg"
-    },
-    {
       "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\617451f9-0a03-4123-97b8-fcc3b288e68a.jpg",
       "SourceId": "PruebaPatrickLisby",
       "SourceType": "Discovered",
@@ -207,12 +188,12 @@
       "OriginalItemSpec": "wwwroot\\imagenes\\ae5ee9b4-caee-44d5-a147-9ceecf093c0c.png"
     },
     {
-      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\default.png",
+      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\bc6b9730-2cfe-4a5d-b2fd-167e4106f8de.png",
       "SourceId": "PruebaPatrickLisby",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
       "BasePath": "_content/PruebaPatrickLisby",
-      "RelativePath": "imagenes/default.png",
+      "RelativePath": "imagenes/bc6b9730-2cfe-4a5d-b2fd-167e4106f8de.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -223,7 +204,26 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\imagenes\\default.png"
+      "OriginalItemSpec": "wwwroot\\imagenes\\bc6b9730-2cfe-4a5d-b2fd-167e4106f8de.png"
+    },
+    {
+      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\default.webp",
+      "SourceId": "PruebaPatrickLisby",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
+      "BasePath": "_content/PruebaPatrickLisby",
+      "RelativePath": "imagenes/default.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imagenes\\default.webp"
     },
     {
       "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\df8e5103-03fc-4fcb-81b7-7bd010f273ed.png",
@@ -281,6 +281,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\imagenes\\e4aa97dc-1b5b-4d6a-b6ab-49d629db0c7b.jpg"
+    },
+    {
+      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\categorias.js",
+      "SourceId": "PruebaPatrickLisby",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
+      "BasePath": "_content/PruebaPatrickLisby",
+      "RelativePath": "js/categorias.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\categorias.js"
     },
     {
       "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\login.js",
