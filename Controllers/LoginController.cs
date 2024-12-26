@@ -24,6 +24,12 @@ namespace PruebaPatrickLisby.Controllers
             return View("Login");
         }
 
+        [HttpGet]
+        public IActionResult Registrar()
+        {
+            return View("Register");
+        }
+
 
     }//fin clase LoginController
 

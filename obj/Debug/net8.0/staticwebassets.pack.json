@@ -61,6 +61,10 @@
       "PackagePath": "staticwebassets\\js\\productos.js"
     },
     {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\register.js",
+      "PackagePath": "staticwebassets\\js\\register.js"
+    },
+    {
       "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
@@ -291,6 +295,10 @@
     {
       "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\logo.png",
+      "PackagePath": "staticwebassets\\logo.png"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.PruebaPatrickLisby.Microsoft.AspNetCore.StaticWebAssets.props",

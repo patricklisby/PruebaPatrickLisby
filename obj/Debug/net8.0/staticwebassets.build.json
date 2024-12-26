@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "l55EDnHi6QxCNoeE7CFnaTC2RJH7utMZqaz709bHP04=",
+  "Hash": "w0zhZrS7cmaygkNLLpLHwtEb1FAeDcA9HBCutdJCHa8=",
   "Source": "PruebaPatrickLisby",
   "BasePath": "_content/PruebaPatrickLisby",
   "Mode": "Default",
@@ -319,6 +319,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\productos.js"
+    },
+    {
+      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\register.js",
+      "SourceId": "PruebaPatrickLisby",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
+      "BasePath": "_content/PruebaPatrickLisby",
+      "RelativePath": "js/register.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\register.js"
     },
     {
       "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\site.js",
@@ -1421,6 +1440,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\logo.png",
+      "SourceId": "PruebaPatrickLisby",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\",
+      "BasePath": "_content/PruebaPatrickLisby",
+      "RelativePath": "logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\logo.png"
     }
   ]
 }
