@@ -48,6 +48,7 @@ namespace PruebaPatrickLisby.Controllers
                     {
                         while (reader.Read())
                         {
+                            Console.WriteLine(reader["urlImagen"].ToString());
                             productos.Add(new Producto
                             {
                                 idProducto = (int)reader["idProducto"],
