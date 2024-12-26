@@ -2,7 +2,7 @@ using System;
 using System.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession(options =>
 {
