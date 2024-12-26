@@ -13,6 +13,42 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\58d2e198-77bb-40d8-8686-1907e38f7a69.jpg",
+      "PackagePath": "staticwebassets\\imagenes\\58d2e198-77bb-40d8-8686-1907e38f7a69.jpg"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\617451f9-0a03-4123-97b8-fcc3b288e68a.jpg",
+      "PackagePath": "staticwebassets\\imagenes\\617451f9-0a03-4123-97b8-fcc3b288e68a.jpg"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\64a6fbcc-0da5-4645-ad48-53616a3e17bb.jpg",
+      "PackagePath": "staticwebassets\\imagenes\\64a6fbcc-0da5-4645-ad48-53616a3e17bb.jpg"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\default.png",
+      "PackagePath": "staticwebassets\\imagenes\\default.png"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\df8e5103-03fc-4fcb-81b7-7bd010f273ed.png",
+      "PackagePath": "staticwebassets\\imagenes\\df8e5103-03fc-4fcb-81b7-7bd010f273ed.png"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\e03beb74-dbd7-4ba8-b017-ad9486e3984d.jpg",
+      "PackagePath": "staticwebassets\\imagenes\\e03beb74-dbd7-4ba8-b017-ad9486e3984d.jpg"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\imagenes\\e4aa97dc-1b5b-4d6a-b6ab-49d629db0c7b.jpg",
+      "PackagePath": "staticwebassets\\imagenes\\e4aa97dc-1b5b-4d6a-b6ab-49d629db0c7b.jpg"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\login.js",
+      "PackagePath": "staticwebassets\\js\\login.js"
+    },
+    {
+      "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\productos.js",
+      "PackagePath": "staticwebassets\\js\\productos.js"
+    },
+    {
       "Id": "C:\\Programming\\PruebaPatrickLisby\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

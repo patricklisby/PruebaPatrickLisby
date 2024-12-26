@@ -15,11 +15,14 @@ namespace PruebaPatrickLisby.Models
 
         // Llave foránea
         public int idCategoria { get; set; }
+        public int? IdImagen { get; set; }
+        public int idCedulaUsuarioRegistra { get; set; }
+
         [JsonIgnore]
         [NotMapped]
         public Categoria? Categoria { get; set; }
 
-        public int idCedulaUsuarioRegistra { get; set; }
+ 
         [JsonIgnore]
         [NotMapped]
         
@@ -29,5 +32,12 @@ namespace PruebaPatrickLisby.Models
         [JsonIgnore]
         [NotMapped]
         public ICollection<CarritoCompra>? CarritosCompra { get; set; }
+
+        //Relación con Imagenes
+        [JsonIgnore]
+        [NotMapped]
+        public Imagenes? Imagen { get; set; }
+        [NotMapped]
+        public string? ImagenUrl { get; set; }
     }
 }

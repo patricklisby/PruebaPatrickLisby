@@ -1,0 +1,46 @@
+﻿<div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Editar Producto</h2>
+    <form method="post" enctype="multipart/form-data" asp-controller="Productos" asp-action="EditarProducto" asp-route-idProducto="@Model.idProducto">
+        <div class="mb-4">
+            <label for="descripcionProducto" class="block text-sm font-medium text-gray-700">Descripción</label>
+            <input type="text" name="descripcionProducto" id="descripcionProducto" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" value="@Model.descripcionProducto" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="detallesProducto" class="block text-sm font-medium text-gray-700">Detalles</label>
+            <textarea name="detallesProducto" id="detallesProducto" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">@Model.detallesProducto</textarea>
+        </div>
+
+        <div class="mb-4">
+            <label for="precioProducto" class="block text-sm font-medium text-gray-700">Precio</label>
+            <input type="number" step="0.01" name="precioProducto" id="precioProducto" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" value="@Model.precioProducto" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="cantidadProducto" class="block text-sm font-medium text-gray-700">Cantidad</label>
+            <input type="number" name="cantidadProducto" id="cantidadProducto" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" value="@Model.cantidadProducto" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="idCategoria" class="block text-sm font-medium text-gray-700">Categoría</label>
+            <select name="idCategoria" id="idCategoria" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                <option value="">Seleccione una categoría</option>
+                <!-- Aquí puedes iterar dinámicamente las categorías desde el modelo -->
+                <option value="1" selected="@Model.idCategoria == 1">Electrónica</option>
+                <option value="2" selected="@Model.idCategoria == 2">Ropa</option>
+                <option value="3" selected="@Model.idCategoria == 3">Hogar</option>
+                <option value="4" selected="@Model.idCategoria == 4">Deportes</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label for="imagen" class="block text-sm font-medium text-gray-700">Imagen</label>
+            <input type="file" name="imagen" id="imagen" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <p class="text-sm text-gray-500 mt-2">Imagen actual: <a href="@Model.urlImagen" class="text-indigo-600 underline">@Model.urlImagen</a></p>
+        </div>
+
+        <div class="flex justify-end">
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Guardar Cambios</button>
+        </div>
+    </form>
+</div>

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Data;
+using System;
 using System.Data.SqlClient;
+using System.IO;
 using PruebaPatrickLisby.Models;
-using System.Collections.Generic;
 
 namespace PruebaPatrickLisby.Controllers
 {
@@ -16,6 +16,7 @@ namespace PruebaPatrickLisby.Controllers
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
+
         [HttpGet("obtenerProductos")]
         public IActionResult ObtenerProductos()
         {
@@ -25,22 +26,42 @@ namespace PruebaPatrickLisby.Controllers
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM Productos", conn);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                    string query = @"
+            SELECT p.idProducto, 
+                   p.descripcionProducto, 
+                   p.detallesProducto, 
+                   p.precioProducto, 
+                   p.cantidadProducto, 
+                   p.fechaPublicacion, 
+                   p.idCategoria, 
+                   p.estado, 
+                   p.idCedulaUsuarioRegistra, 
+                   p.idImagen,
+                   i.urlImagen
+            FROM Productos p
+            LEFT JOIN Imagenes i ON p.idImagen = i.idImagen";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        productos.Add(new Producto
+                        while (reader.Read())
                         {
-                            idProducto = (int)reader["idProducto"],
-                            descripcionProducto = reader["descripcionProducto"].ToString(),
-                            detallesProducto = reader["detallesProducto"].ToString(),
-                            precioProducto = (decimal)reader["precioProducto"],
-                            cantidadProducto = (int)reader["cantidadProducto"],
-                            fechaPublicacion = (DateTime)reader["fechaPublicacion"],
-                            idCategoria = (int)reader["idCategoria"],
-                            estado = (int)reader["estado"],
-                            idCedulaUsuarioRegistra = (int)reader["idCedulaUsuarioRegistra"]
-                        });
+                            Console.WriteLine(reader["urlImagen"].ToString());
+                            productos.Add(new Producto
+                            {
+                                idProducto = (int)reader["idProducto"],
+                                descripcionProducto = reader["descripcionProducto"].ToString(),
+                                detallesProducto = reader["detallesProducto"].ToString(),
+                                precioProducto = (decimal)reader["precioProducto"],
+                                cantidadProducto = (int)reader["cantidadProducto"],
+                                fechaPublicacion = (DateTime)reader["fechaPublicacion"],
+                                idCategoria = (int)reader["idCategoria"],
+                                estado = (int)reader["estado"],
+                                idCedulaUsuarioRegistra = (int)reader["idCedulaUsuarioRegistra"],
+                                IdImagen = (int)reader["idImagen"],
+                                ImagenUrl = reader["urlImagen"].ToString()
+                            });
+                        }
                     }
                 }
                 return Ok(productos);
@@ -50,6 +71,9 @@ namespace PruebaPatrickLisby.Controllers
                 return StatusCode(500, $"Error al obtener productos: {ex.Message}");
             }
         }
+
+
+
 
         [HttpGet("obtenerProductoId/{idProducto}")]
         public IActionResult ObtenerProductoId(int idProducto)
@@ -78,7 +102,8 @@ namespace PruebaPatrickLisby.Controllers
                             idCedulaUsuarioRegistra = (int)reader["IdCedulaUsuarioRegistra"]
                         };
                     }
-                    else {
+                    else
+                    {
                         return NotFound(new { message = "Producto no encontrado con el ID proporcionado." });
                     }
                 }
@@ -91,113 +116,268 @@ namespace PruebaPatrickLisby.Controllers
         }
 
         [HttpPost("crearProducto")]
-        public IActionResult CrearProducto([FromBody] Producto producto)
-        {
-            producto.fechaPublicacion = DateTime.Now;//Tomar la fecha actual
-
-            int idCedulaUsuarioRegistra = 1;
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(@"
-                    INSERT INTO Productos (
-                    descripcionProducto, 
-                    detallesProducto, 
-                    precioProducto, 
-                    cantidadProducto, 
-                    fechaPublicacion, 
-                    idCategoria, 
-                    idCedulaUsuarioRegistra,
-                    estado
-                    )
-                    VALUES (
-                    @descripcionProducto, 
-                    @detallesProducto, 
-                    @precioProducto, 
-                    @cantidadProducto, 
-                    @fechaPublicacion, 
-                    @idCategoria, 
-                    @idCedulaUsuarioRegistra,
-                    @estado
-                    )",
-                    conn);
-
-                cmd.Parameters.AddWithValue("@descripcionProducto", producto.descripcionProducto);
-                cmd.Parameters.AddWithValue("@detallesProducto", producto.detallesProducto);
-                cmd.Parameters.AddWithValue("@precioProducto", producto.precioProducto);
-                cmd.Parameters.AddWithValue("@cantidadProducto", producto.cantidadProducto);
-                cmd.Parameters.AddWithValue("@fechaPublicacion", producto.fechaPublicacion);
-                cmd.Parameters.AddWithValue("@idCategoria", producto.idCategoria);
-                cmd.Parameters.AddWithValue("@idCedulaUsuarioRegistra", idCedulaUsuarioRegistra);
-                cmd.Parameters.AddWithValue("@estado", producto.estado);
-                cmd.ExecuteNonQuery();
-            }
-            return Ok();
-        }
-
-        [HttpPut("editarProducto/{idProducto}")]
-        public IActionResult EditarProducto(int idProducto, [FromBody] Producto producto)
+        public IActionResult CrearProducto([FromForm] Producto producto, [FromForm] IFormFile? imagen)
         {
             try
             {
-                using (var connection = new SqlConnection(_connectionString))
+                int? nuevoIdImagen = null;
+
+                var permitidos = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                var extension = Path.GetExtension(imagen.FileName).ToLower();
+
+                if (!permitidos.Contains(extension))
                 {
-                    connection.Open();
+                    return BadRequest(new { mensaje = "Tipo de archivo no permitido. Solo se aceptan imágenes." });
+                }
 
-                    // Ajusta los nombres de columna exactamente como están en tu tabla
-                    // Corrige "descriptcionProducto" -> "descripcionProducto"
-                    // Ajusta la sentencia para que coincidan los nombres de parámetros
-                    string sql = @"
-                UPDATE Productos
-                   SET descripcionProducto       = @descripcionProducto,
-                       detallesProducto         = @detallesProducto,
-                       precioProducto           = @precioProducto,
-                       cantidadProducto         = @cantidadProducto,
-                       estado                   = @estado,
-                       fechaPublicacion         = @fechaPublicacion,
-                       idCategoria              = @idCategoria,
-                       idCedulaUsuarioRegistra  = @idCedulaUsuarioRegistra
-                      
-                 WHERE idProducto = @idProducto
-            ";
+                using (SqlConnection conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
 
-                    using (var cmd = new SqlCommand(sql, connection))
+                    // Gestionar la imagen si se proporciona
+                    if (imagen != null)
                     {
-                        // Usamos el id de la ruta, no el del body, para evitar desajustes
-                        cmd.Parameters.AddWithValue("@idProducto", idProducto);
-
-                        // Mapea el resto de parámetros desde el body dynamic
-                        // Asegúrate de que tu JSON contenga estas propiedades
-                        cmd.Parameters.AddWithValue("@descripcionProducto", (string)producto.descripcionProducto);
-                        cmd.Parameters.AddWithValue("@detallesProducto", (string)producto.detallesProducto);
-                        cmd.Parameters.AddWithValue("@precioProducto", (decimal)producto.precioProducto);
-                        cmd.Parameters.AddWithValue("@cantidadProducto", (int)producto.cantidadProducto);
-                        cmd.Parameters.AddWithValue("@estado", producto.estado);
-
-                        // y en la BD se llama "fechaPublicacion":
-                        cmd.Parameters.AddWithValue("@fechaPublicacion", (DateTime)producto.fechaPublicacion);
-
-                        cmd.Parameters.AddWithValue("@idCategoria", (int)producto.idCategoria);
-                        cmd.Parameters.AddWithValue("@idCedulaUsuarioRegistra", (int)producto.idCedulaUsuarioRegistra);
-
-                        // Ejecutamos la sentencia
-                        var rowsAffected = cmd.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
+                        try
                         {
-                            // 204 No Content es un estado común para PUT exitoso
-                            return StatusCode(204, new { mensaje = "Actualización éxitosa" });
+                            // Crear carpeta si no existe
+                            string carpetaImagenes = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes");
+                            if (!Directory.Exists(carpetaImagenes))
+                            {
+                                Directory.CreateDirectory(carpetaImagenes);
+                            }
+
+                            // Guardar la imagen
+                            string nombreArchivo = Guid.NewGuid() + Path.GetExtension(imagen.FileName);
+                            string rutaFisica = Path.Combine(carpetaImagenes, nombreArchivo);
+
+                            using (var stream = new FileStream(rutaFisica, FileMode.Create))
+                            {
+                                imagen.CopyTo(stream);
+                            }
+
+                            // Generar la URL de la imagen para la base de datos
+                            string urlImagen = $"/imagenes/{nombreArchivo}".Replace("\\", "/");
+
+                            // Insertar la imagen en la tabla Imagenes y obtener el ID generado
+                            string insertarImagenSql = @"
+                        INSERT INTO Imagenes (urlImagen)
+                        OUTPUT INSERTED.idImagen
+                        VALUES (@urlImagen)";
+
+                            using (var cmdImagen = new SqlCommand(insertarImagenSql, conn))
+                            {
+                                cmdImagen.Parameters.AddWithValue("@urlImagen", urlImagen);
+                                nuevoIdImagen = (int)cmdImagen.ExecuteScalar();
+                            }
                         }
-                        else
+                        catch (Exception imgEx)
                         {
-                            return NotFound(new { mensaje = "Producto no encontrado." });
+                            return StatusCode(500, new { mensaje = $"Error al guardar la imagen: {imgEx.Message}" });
                         }
+                    }
+
+                    // Insertar el producto en la tabla Productos
+                    string insertarProductoSql = @"
+                INSERT INTO Productos (
+                    descripcionProducto,
+                    detallesProducto,
+                    precioProducto,
+                    cantidadProducto,
+                    fechaPublicacion,
+                    idCategoria,
+                    idCedulaUsuarioRegistra,
+                    estado,
+                    idImagen
+                )
+                OUTPUT INSERTED.idProducto
+                VALUES (
+                    @descripcionProducto,
+                    @detallesProducto,
+                    @precioProducto,
+                    @cantidadProducto,
+                    @fechaPublicacion,
+                    @idCategoria,
+                    @idCedulaUsuarioRegistra,
+                    @estado,
+                    @idImagen
+                )";
+
+                    using (var cmdProducto = new SqlCommand(insertarProductoSql, conn))
+                    {
+                        cmdProducto.Parameters.AddWithValue("@descripcionProducto", producto.descripcionProducto);
+                        cmdProducto.Parameters.AddWithValue("@detallesProducto", producto.detallesProducto ?? (object)DBNull.Value);
+                        cmdProducto.Parameters.AddWithValue("@precioProducto", producto.precioProducto);
+                        cmdProducto.Parameters.AddWithValue("@cantidadProducto", producto.cantidadProducto);
+                        cmdProducto.Parameters.AddWithValue("@fechaPublicacion", DateTime.Now);
+                        cmdProducto.Parameters.AddWithValue("@idCategoria", producto.idCategoria);
+                        cmdProducto.Parameters.AddWithValue("@idCedulaUsuarioRegistra", producto.idCedulaUsuarioRegistra);
+                        cmdProducto.Parameters.AddWithValue("@estado", producto.estado);
+                        cmdProducto.Parameters.AddWithValue("@idImagen", nuevoIdImagen ?? (object)DBNull.Value);
+
+                        int idProducto = (int)cmdProducto.ExecuteScalar();
+
+                        return Ok(new { mensaje = "Producto creado exitosamente", idProducto, idImagen = nuevoIdImagen });
                     }
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { mensaje = "Error interno del servidor.", error = ex.Message });
+                return StatusCode(500, new { mensaje = $"Error al crear producto: {ex.Message}" });
+            }
+        }
+
+        [HttpPut("editarProducto/{idProducto}")]
+        public IActionResult EditarProducto(int idProducto, [FromForm] Producto producto, [FromForm] IFormFile? imagen)
+        {
+            try
+            {
+                int? nuevoIdImagen = null;
+
+                using (SqlConnection conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+
+                    // Obtener información actual del producto
+                    string obtenerProductoSql = @"
+                SELECT idImagen
+                FROM Productos
+                WHERE idProducto = @idProducto";
+
+                    int? idImagenActual = null;
+
+                    using (var obtenerCmd = new SqlCommand(obtenerProductoSql, conn))
+                    {
+                        obtenerCmd.Parameters.AddWithValue("@idProducto", idProducto);
+
+                        using (var reader = obtenerCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                idImagenActual = reader["idImagen"] as int?;
+                            }
+                            else
+                            {
+                                return NotFound(new { mensaje = "Producto no encontrado." });
+                            }
+                        }
+                    }
+
+                    // Gestionar la nueva imagen (si fue enviada)
+                    if (imagen != null)
+                    {
+                        try
+                        {
+                            // Crear carpeta si no existe
+                            string carpetaImagenes = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes");
+                            if (!Directory.Exists(carpetaImagenes))
+                            {
+                                Directory.CreateDirectory(carpetaImagenes);
+                            }
+
+                            // Guardar la nueva imagen
+                            string nombreArchivo = Guid.NewGuid() + Path.GetExtension(imagen.FileName);
+                            string rutaFisica = Path.Combine(carpetaImagenes, nombreArchivo);
+
+                            using (var stream = new FileStream(rutaFisica, FileMode.Create))
+                            {
+                                imagen.CopyTo(stream);
+                            }
+
+                            // Generar la URL de la nueva imagen
+                            string urlImagen = $"/imagenes/{nombreArchivo}".Replace("\\", "/");
+
+                            // Insertar la nueva imagen en la tabla Imagenes
+                            string insertarImagenSql = @"
+                        INSERT INTO Imagenes (urlImagen)
+                        OUTPUT INSERTED.idImagen
+                        VALUES (@urlImagen)";
+
+                            using (var insertarCmd = new SqlCommand(insertarImagenSql, conn))
+                            {
+                                insertarCmd.Parameters.AddWithValue("@urlImagen", urlImagen);
+                                nuevoIdImagen = (int)insertarCmd.ExecuteScalar();
+                            }
+
+                            // Eliminar la imagen anterior si existe
+                            if (idImagenActual.HasValue)
+                            {
+                                string obtenerUrlImagenSql = "SELECT urlImagen FROM Imagenes WHERE idImagen = @idImagen";
+                                string? urlImagenAnterior = null;
+
+                                using (var obtenerUrlCmd = new SqlCommand(obtenerUrlImagenSql, conn))
+                                {
+                                    obtenerUrlCmd.Parameters.AddWithValue("@idImagen", idImagenActual.Value);
+                                    urlImagenAnterior = obtenerUrlCmd.ExecuteScalar()?.ToString();
+                                }
+
+                                if (urlImagenAnterior != null)
+                                {
+                                    string rutaFisicaAnterior = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", urlImagenAnterior.TrimStart('/'));
+                                    if (System.IO.File.Exists(rutaFisicaAnterior))
+                                    {
+                                        System.IO.File.Delete(rutaFisicaAnterior);
+                                    }
+
+                                    // Eliminar el registro de la imagen anterior en la base de datos
+                                    string eliminarImagenSql = "DELETE FROM Imagenes WHERE idImagen = @idImagen";
+                                    using (var eliminarCmd = new SqlCommand(eliminarImagenSql, conn))
+                                    {
+                                        eliminarCmd.Parameters.AddWithValue("@idImagen", idImagenActual.Value);
+                                        eliminarCmd.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception imgEx)
+                        {
+                            return StatusCode(500, new { mensaje = $"Error al gestionar la imagen: {imgEx.Message}" });
+                        }
+                    }
+                    else
+                    {
+                        // Mantener la imagen actual si no se proporciona una nueva
+                        nuevoIdImagen = idImagenActual;
+                    }
+
+                    // Actualizar el producto
+                    string actualizarProductoSql = @"
+                UPDATE Productos
+                SET descripcionProducto = @descripcionProducto,
+                    detallesProducto = @detallesProducto,
+                    precioProducto = @precioProducto,
+                    cantidadProducto = @cantidadProducto,
+                    estado = @estado,
+                    idCategoria = @idCategoria,
+                    idCedulaUsuarioRegistra = @idCedulaUsuarioRegistra,
+                    idImagen = @idImagen
+                WHERE idProducto = @idProducto";
+
+                    using (var cmdProducto = new SqlCommand(actualizarProductoSql, conn))
+                    {
+                        cmdProducto.Parameters.AddWithValue("@idProducto", idProducto);
+                        cmdProducto.Parameters.AddWithValue("@descripcionProducto", producto.descripcionProducto);
+                        cmdProducto.Parameters.AddWithValue("@detallesProducto", producto.detallesProducto ?? (object)DBNull.Value);
+                        cmdProducto.Parameters.AddWithValue("@precioProducto", producto.precioProducto);
+                        cmdProducto.Parameters.AddWithValue("@cantidadProducto", producto.cantidadProducto);
+                        cmdProducto.Parameters.AddWithValue("@estado", producto.estado);
+                        cmdProducto.Parameters.AddWithValue("@idCategoria", producto.idCategoria);
+                        cmdProducto.Parameters.AddWithValue("@idCedulaUsuarioRegistra", producto.idCedulaUsuarioRegistra);
+                        cmdProducto.Parameters.AddWithValue("@idImagen", nuevoIdImagen ?? (object)DBNull.Value);
+
+                        int rowsAffected = cmdProducto.ExecuteNonQuery();
+
+                        if (rowsAffected == 0)
+                        {
+                            return NotFound(new { mensaje = "Producto no encontrado." });
+                        }
+
+                        return Ok(new { mensaje = "Producto actualizado exitosamente", nuevaImagenId = nuevoIdImagen });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = $"Error al editar producto: {ex.Message}" });
             }
         }
 
@@ -211,7 +391,6 @@ namespace PruebaPatrickLisby.Controllers
                 {
                     connection.Open();
 
-                    // Realizamos la "baja lógica" en lugar de un DELETE
                     var cmd = new SqlCommand(
                         "UPDATE Productos SET estado = 0 WHERE idProducto = @idProducto",
                         connection
@@ -237,7 +416,7 @@ namespace PruebaPatrickLisby.Controllers
                 return StatusCode(500, new { mensaje = "Error interno del servidor.", error = ex.Message });
             }
         }
-
     }
+
 
 }

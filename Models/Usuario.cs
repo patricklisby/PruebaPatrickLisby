@@ -11,6 +11,7 @@ namespace PruebaPatrickLisby.Models
             Productos = new List<Producto>();
             CarritosCompra = new List<CarritoCompra>();
             Permiso = null;
+            Imagen = null;
         }
 
 
@@ -23,6 +24,8 @@ namespace PruebaPatrickLisby.Models
 
         // Llave foránea
         public int idPermiso { get; set; }
+        public int? IdImagen { get; set; }
+
         [JsonIgnore]
         [NotMapped]
         public Permiso? Permiso { get; set; }
@@ -36,5 +39,9 @@ namespace PruebaPatrickLisby.Models
         [JsonIgnore]
         [NotMapped]
         public ICollection<CarritoCompra>? CarritosCompra { get; set; }
+        //Relación con Imagenes
+        [JsonIgnore]
+        [NotMapped]
+        public Imagenes? Imagen { get; set; }
     }
 }
