@@ -120,6 +120,16 @@ namespace PruebaPatrickLisby.Controllers
         {
             try
             {
+                // Depurar sesión
+                Console.WriteLine($"SessionUserId: {HttpContext.Session.GetString("SessionUserId")}");
+                Console.WriteLine($"SessionUserName: {HttpContext.Session.GetString("SessionUserName")}");
+
+                // Recuperar el ID del usuario desde la sesión
+                int usuarioId = int.Parse(HttpContext.Session.GetString("SessionUserId"));
+                Console.WriteLine($"ID del usuario desde la sesión: {usuarioId}");
+
+                producto.idCedulaUsuarioRegistra = usuarioId;
+
                 int? nuevoIdImagen = null;
 
                 var permitidos = new[] { ".jpg", ".jpeg", ".png", ".gif" };
@@ -231,6 +241,12 @@ namespace PruebaPatrickLisby.Controllers
         {
             try
             {
+                // Recuperar el ID del usuario desde la sesión
+                int usuarioId = int.Parse(HttpContext.Session.GetString("SessionUserId"));
+                Console.WriteLine($"ID del usuario desde la sesión: {usuarioId}");
+
+                producto.idCedulaUsuarioRegistra = usuarioId;
+
                 int? nuevoIdImagen = null;
 
                 using (SqlConnection conn = new SqlConnection(_connectionString))
@@ -239,9 +255,9 @@ namespace PruebaPatrickLisby.Controllers
 
                     // Obtener información actual del producto
                     string obtenerProductoSql = @"
-                SELECT idImagen
-                FROM Productos
-                WHERE idProducto = @idProducto";
+            SELECT idImagen
+            FROM Productos
+            WHERE idProducto = @idProducto";
 
                     int? idImagenActual = null;
 
@@ -267,6 +283,14 @@ namespace PruebaPatrickLisby.Controllers
                     {
                         try
                         {
+                            var permitidos = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                            var extension = Path.GetExtension(imagen.FileName).ToLower();
+
+                            if (!permitidos.Contains(extension))
+                            {
+                                return BadRequest(new { mensaje = "Tipo de archivo no permitido. Solo se aceptan imágenes." });
+                            }
+
                             // Crear carpeta si no existe
                             string carpetaImagenes = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes");
                             if (!Directory.Exists(carpetaImagenes))
@@ -288,9 +312,9 @@ namespace PruebaPatrickLisby.Controllers
 
                             // Insertar la nueva imagen en la tabla Imagenes
                             string insertarImagenSql = @"
-                        INSERT INTO Imagenes (urlImagen)
-                        OUTPUT INSERTED.idImagen
-                        VALUES (@urlImagen)";
+                    INSERT INTO Imagenes (urlImagen)
+                    OUTPUT INSERTED.idImagen
+                    VALUES (@urlImagen)";
 
                             using (var insertarCmd = new SqlCommand(insertarImagenSql, conn))
                             {
@@ -341,16 +365,16 @@ namespace PruebaPatrickLisby.Controllers
 
                     // Actualizar el producto
                     string actualizarProductoSql = @"
-                UPDATE Productos
-                SET descripcionProducto = @descripcionProducto,
-                    detallesProducto = @detallesProducto,
-                    precioProducto = @precioProducto,
-                    cantidadProducto = @cantidadProducto,
-                    estado = @estado,
-                    idCategoria = @idCategoria,
-                    idCedulaUsuarioRegistra = @idCedulaUsuarioRegistra,
-                    idImagen = @idImagen
-                WHERE idProducto = @idProducto";
+            UPDATE Productos
+            SET descripcionProducto = @descripcionProducto,
+                detallesProducto = @detallesProducto,
+                precioProducto = @precioProducto,
+                cantidadProducto = @cantidadProducto,
+                estado = @estado,
+                idCategoria = @idCategoria,
+                idCedulaUsuarioRegistra = @idCedulaUsuarioRegistra,
+                idImagen = @idImagen
+            WHERE idProducto = @idProducto";
 
                     using (var cmdProducto = new SqlCommand(actualizarProductoSql, conn))
                     {

@@ -27,204 +27,299 @@
     </div>
 </div>
 
+<!-- Contenedor para alertas -->
+<div id="alertContainer" class="fixed top-4 right-4 space-y-4 z-50"></div>
+
 @section Scripts {
-    <script>
-        const apiBaseUrl = '/api/Producto';
-        const productosContainer = document.getElementById("productosContainer");
-        const modalContainer = document.getElementById("modalContainer");
-        const modalContent = document.getElementById("modalContent");
+  <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const apiBaseUrl = '/api/Producto';
+            const productosContainer = document.getElementById("productosContainer");
+            const modalContainer = document.getElementById("modalContainer");
+            const modalContent = document.getElementById("modalContent");
+            const alertContainer = document.getElementById("alertContainer");
 
-        // Cargar productos
-        async function cargarProductos() {
-            try {
-                const response = await fetch(`${apiBaseUrl}/obtenerProductos`);
-                if (!response.ok) {
-                    throw new Error("Error al cargar los productos.");
-                }
+            // Función para mostrar alertas
+            function mostrarAlerta(tipo, mensaje) {
+                const alert = document.createElement("div");
+                alert.className = `p-4 rounded-md shadow-md text-white text-sm ${tipo === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+                alert.textContent = mensaje;
 
-                const productos = await response.json();
-                productosContainer.innerHTML = ''; // Limpiar contenedor
+                alertContainer.appendChild(alert);
 
-                if (productos.length === 0) {
-                    productosContainer.innerHTML = '<p class="text-gray-500">No hay productos disponibles.</p>';
-                    return;
-                }
-
-                productos.forEach(producto => {
-                    const productoCard = crearProductoCard(producto);
-                    productosContainer.appendChild(productoCard);
-                });
-            } catch (error) {
-                console.error(error);
+                setTimeout(() => {
+                    alert.remove();
+                }, 3000); // Ocultar después de 3 segundos
             }
-        }
 
-        function crearProductoCard(producto) {
-            const card = document.createElement("div");
-            card.className = "bg-white rounded-lg shadow-md overflow-hidden flex flex-col justify-between";
-
-            const imagenUrl = producto.ImagenUrl || "/imagenes/default.png";
-
-            card.innerHTML = `
-                <!-- Imagen con una proporción más adecuada -->
-                <div class="aspect-w-3 aspect-h-4 bg-gray-200">
-                            <img src="${producto.imagenUrl}" alt="${producto.descripcionProducto}" class="object-cover w-full h-full" onerror="this.onerror=null;this.src='/imagenes/default.png';">
-                </div>
-                <div class="p-4 flex-grow flex flex-col justify-between">
-                    <div>
-                        <h2 class="text-lg font-bold text-gray-800 truncate">${producto.descripcionProducto}</h2>
-                        <p class="text-sm text-gray-600">${producto.detallesProducto}</p>
-                        <p class="text-gray-800 font-bold mt-2">Precio: ₡${producto.precioProducto.toFixed(2)}</p>
-                    </div>
-                    <div class="mt-4">
-                        <button data-id="${producto.idProducto}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-900 w-full">
-                            Editar
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            return card;
-        }
-
-
-        // Abrir modal
-        function abrirModal(content) {
-            modalContent.innerHTML = content;
-            modalContainer.classList.remove("hidden");
-        }
-
-        // Cerrar modal
-        document.getElementById("closeModal").addEventListener("click", () => {
-            modalContainer.classList.add("hidden");
-        });
-
-        // Cargar vista de crear producto
-        async function cargarVistaCrear() {
-            const form = `
-                        <h2 class="text-lg font-bold mb-4">Crear Producto</h2>
-                        <form id="crearProductoForm">
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">Descripción</label>
-                                <input type="text" id="descripcionProducto" class="w-full border-gray-300 rounded-md shadow-sm">
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">Detalles</label>
-                                <textarea id="detallesProducto" class="w-full border-gray-300 rounded-md shadow-sm"></textarea>
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">Precio</label>
-                                <input type="number" id="precioProducto" class="w-full border-gray-300 rounded-md shadow-sm">
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">Cantidad</label>
-                                <input type="number" id="cantidadProducto" class="w-full border-gray-300 rounded-md shadow-sm">
-                            </div>
-                            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Guardar</button>
-                        </form>
-                    `;
-
-            abrirModal(form);
-
-            document.getElementById("crearProductoForm").addEventListener("submit", async (e) => {
-                e.preventDefault();
-                const producto = {
-                    descripcionProducto: document.getElementById("descripcionProducto").value,
-                    detallesProducto: document.getElementById("detallesProducto").value,
-                    precioProducto: parseFloat(document.getElementById("precioProducto").value),
-                    cantidadProducto: parseInt(document.getElementById("cantidadProducto").value),
-                };
-
+            // Cargar productos
+            async function cargarProductos() {
                 try {
-                    const response = await fetch(`${apiBaseUrl}/crearProducto`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(producto),
-                    });
-
-                    if (response.ok) {
-                        alert("Producto creado exitosamente.");
-                        modalContainer.classList.add("hidden");
-                        cargarProductos();
-                    } else {
-                        throw new Error("Error al crear el producto.");
+                    const response = await fetch(`${apiBaseUrl}/obtenerProductos`);
+                    if (!response.ok) {
+                        throw new Error("Error al cargar los productos.");
                     }
+
+                    const productos = await response.json();
+                    productosContainer.innerHTML = ''; // Limpiar contenedor
+
+                    if (productos.length === 0) {
+                        productosContainer.innerHTML = '<p class="text-gray-500">No hay productos disponibles.</p>';
+                        return;
+                    }
+
+                    productos.forEach(producto => {
+                        const productoCard = crearProductoCard(producto);
+                        productosContainer.appendChild(productoCard);
+                    });
                 } catch (error) {
                     console.error(error);
+                    mostrarAlerta('error', 'Error al cargar los productos.');
                 }
-            });
-        }
+            }
 
-        // Cargar vista de editar producto
-        async function cargarVistaEditar(idProducto) {
-            try {
-                const response = await fetch(`${apiBaseUrl}/obtenerProductoId/${idProducto}`);
-                if (!response.ok) {
-                    throw new Error("Error al obtener el producto.");
+            function crearProductoCard(producto) {
+                const card = document.createElement("div");
+                card.className = "bg-white rounded-lg shadow-md overflow-hidden flex flex-col justify-between";
+
+                const imagenUrl = producto.ImagenUrl || "/imagenes/default.png";
+
+                card.innerHTML = `
+                    <!-- Imagen con una proporción más adecuada -->
+                    <div class="aspect-w-3 aspect-h-4 bg-gray-200">
+                        <img src="${producto.imagenUrl}" alt="${producto.descripcionProducto}" class="object-cover w-full h-full" onerror="this.onerror=null;this.src='/imagenes/default.png';">
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-800 truncate">${producto.descripcionProducto}</h2>
+                            <p class="text-sm text-gray-600">${producto.detallesProducto}</p>
+                            <p class="text-gray-800 font-bold mt-2">Precio: ₡${producto.precioProducto.toFixed(2)}</p>
+                        </div>
+                        <div class="mt-4">
+                            <button data-id="${producto.idProducto}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-900 w-full">
+                                Editar
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                card.querySelector("button").addEventListener("click", () => {
+                    cargarVistaEditar(producto.idProducto);
+                });
+
+                return card;
+            }
+
+            // Abrir modal
+            function abrirModal(content) {
+                modalContent.innerHTML = content;
+                modalContainer.classList.remove("hidden");
+
+                const closeModalButton = document.getElementById("closeModal");
+                if (closeModalButton) {
+                    closeModalButton.addEventListener("click", () => {
+                        modalContainer.classList.add("hidden");
+                    });
                 }
+            }
 
-                const producto = await response.json();
-
+            // Cargar vista de crear producto
+            async function cargarVistaCrear() {
                 const form = `
-                            <h2 class="text-lg font-bold mb-4">Editar Producto</h2>
-                            <form id="editarProductoForm">
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">Descripción</label>
-                                    <input type="text" id="descripcionProducto" class="w-full border-gray-300 rounded-md shadow-sm" value="${producto.descripcionProducto}">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">Detalles</label>
-                                    <textarea id="detallesProducto" class="w-full border-gray-300 rounded-md shadow-sm">${producto.detallesProducto}</textarea>
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">Precio</label>
-                                    <input type="number" id="precioProducto" class="w-full border-gray-300 rounded-md shadow-sm" value="${producto.precioProducto}">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">Cantidad</label>
-                                    <input type="number" id="cantidadProducto" class="w-full border-gray-300 rounded-md shadow-sm" value="${producto.cantidadProducto}">
-                                </div>
-                                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Guardar</button>
-                            </form>
-                        `;
+                    <h2 class="text-lg font-bold mb-4">Crear Producto</h2>
+                    <form id="crearProductoForm" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Descripción</label>
+                            <input type="text" name="descripcionProducto" id="descripcionProducto" class="w-full border-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Detalles</label>
+                            <textarea name="detallesProducto" id="detallesProducto" class="w-full border-gray-300 rounded-md shadow-sm" rows="4"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Precio</label>
+                            <input type="number" step="0.01" name="precioProducto" id="precioProducto" class="w-full border-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Cantidad</label>
+                            <input type="number" name="cantidadProducto" id="cantidadProducto" class="w-full border-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Categoría</label>
+                            <select name="idCategoria" id="idCategoria" class="w-full border-gray-300 rounded-md shadow-sm" required>
+                                <option value="">Seleccione una categoría</option>
+                                <!-- Categorías dinámicas -->
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Imagen</label>
+                            <input type="file" name="imagen" id="imagen" class="w-full border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Guardar</button>
+                        </div>
+                    </form>
+                `;
 
                 abrirModal(form);
 
-                document.getElementById("editarProductoForm").addEventListener("submit", async (e) => {
-                    e.preventDefault();
+                async function cargarCategorias() {
+                    try {
+                        const response = await fetch("/api/Categoria/obtenerCategorias");
+                        if (!response.ok) throw new Error("Error al cargar categorías.");
 
-                    const productoEditado = {
-                        descripcionProducto: document.getElementById("descripcionProducto").value,
-                        detallesProducto: document.getElementById("detallesProducto").value,
-                        precioProducto: parseFloat(document.getElementById("precioProducto").value),
-                        cantidadProducto: parseInt(document.getElementById("cantidadProducto").value),
-                    };
+                        const categorias = await response.json();
+                        const categoriaSelect = document.getElementById("idCategoria");
+
+                        categorias.forEach((categoria) => {
+                            const option = document.createElement("option");
+                            option.value = categoria.idCategoria;
+                            option.textContent = categoria.descripcionCategoria;
+                            categoriaSelect.appendChild(option);
+                        });
+                    } catch (error) {
+                        console.error("Error al cargar categorías:", error);
+                    }
+                }
+                cargarCategorias();
+
+                const formElement = document.getElementById("crearProductoForm");
+                formElement.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(formElement);
 
                     try {
-                        const response = await fetch(`${apiBaseUrl}/editarProducto/${idProducto}`, {
-                            method: "PUT",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify(productoEditado),
+                        const response = await fetch("/api/Producto/crearProducto", {
+                            method: "POST",
+                            body: formData,
                         });
 
                         if (response.ok) {
-                            alert("Producto editado exitosamente.");
+                            mostrarAlerta('success', 'Producto creado exitosamente.');
                             modalContainer.classList.add("hidden");
                             cargarProductos();
                         } else {
-                            throw new Error("Error al editar el producto.");
+                            const error = await response.json();
+                            mostrarAlerta('error', `Error al crear el producto: ${error.mensaje}`);
                         }
                     } catch (error) {
-                        console.error(error);
+                        console.error("Error al enviar el formulario:", error);
+                        mostrarAlerta('error', 'Error al procesar la solicitud.');
                     }
                 });
-            } catch (error) {
-                console.error(error);
             }
-        }
 
-        // Inicializar
-        document.getElementById("btnCrearProducto").addEventListener("click", cargarVistaCrear);
-        cargarProductos();
-    </script>
+            // Cargar vista de editar producto
+            // Función para cargar la vista de editar producto
+            async function cargarVistaEditar(idProducto) {
+                try {
+                    const response = await fetch(`${apiBaseUrl}/obtenerProductoId/${idProducto}`);
+                    if (!response.ok) {
+                        throw new Error("Error al obtener el producto.");
+                    }
+
+                    const producto = await response.json();
+
+                    const imagenUrl = producto.ImagenUrl || '/imagenes/default.png';
+
+                    const form = `
+                    <h2 class="text-lg font-bold mb-4">Editar Producto</h2>
+                    <form id="editarProductoForm" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Descripción</label>
+                            <input type="text" name="descripcionProducto" id="descripcionProducto" class="w-full border-gray-300 rounded-md shadow-sm" value="${producto.descripcionProducto}" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Detalles</label>
+                            <textarea name="detallesProducto" id="detallesProducto" class="w-full border-gray-300 rounded-md shadow-sm" rows="4">${producto.detallesProducto}</textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Precio</label>
+                            <input type="number" name="precioProducto" id="precioProducto" class="w-full border-gray-300 rounded-md shadow-sm" value="${producto.precioProducto}" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Cantidad</label>
+                            <input type="number" name="cantidadProducto" id="cantidadProducto" class="w-full border-gray-300 rounded-md shadow-sm" value="${producto.cantidadProducto}" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Categoría</label>
+                            <select name="idCategoria" id="idCategoria" class="w-full border-gray-300 rounded-md shadow-sm" required>
+                                <option value="">Seleccione una categoría</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Imagen Actual</label>
+                            <img src="${imagenUrl}" alt="Imagen del producto" class="w-32 h-32 object-cover rounded-md border border-gray-300">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Nueva Imagen</label>
+                            <input type="file" name="imagen" id="imagen" class="w-full border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Guardar</button>
+                        </div>
+                    </form>
+                `;
+
+                    abrirModal(form);
+
+                    // Cargar categorías dinámicamente
+                    async function cargarCategorias() {
+                        try {
+                            const response = await fetch("/api/Categoria/obtenerCategorias");
+                            if (!response.ok) throw new Error("Error al cargar categorías.");
+
+                            const categorias = await response.json();
+                            const categoriaSelect = document.getElementById("idCategoria");
+
+                            categorias.forEach((categoria) => {
+                                const option = document.createElement("option");
+                                option.value = categoria.idCategoria;
+                                option.textContent = categoria.descripcionCategoria;
+                                option.selected = categoria.idCategoria === producto.idCategoria;
+                                categoriaSelect.appendChild(option);
+                            });
+                        } catch (error) {
+                            console.error("Error al cargar categorías:", error);
+                        }
+                    }
+                    cargarCategorias();
+
+                    const formElement = document.getElementById("editarProductoForm");
+                    formElement.addEventListener("submit", async (e) => {
+                        e.preventDefault();
+
+                        const formData = new FormData(formElement);
+
+                        try {
+                            const response = await fetch(`${apiBaseUrl}/editarProducto/${idProducto}`, {
+                                method: "PUT",
+                                body: formData,
+                            });
+
+                            if (response.ok) {
+                                mostrarAlerta('success', 'Producto editado exitosamente.');
+                                modalContainer.classList.add("hidden");
+                                cargarProductos();
+                            } else {
+                                const error = await response.json();
+                                mostrarAlerta('error', `Error al editar el producto: ${error.mensaje}`);
+                            }
+                        } catch (error) {
+                            console.error("Error al enviar el formulario:", error);
+                            mostrarAlerta('error', 'Error al procesar la solicitud.');
+                        }
+                    });
+                } catch (error) {
+                    console.error(error);
+                    mostrarAlerta('error', 'Error al cargar los datos del producto.');
+                }
+            }
+
+            // Inicializar eventos
+            document.getElementById("btnCrearProducto").addEventListener("click", cargarVistaCrear);
+            cargarProductos();
+        });
+
+  </script>
 }

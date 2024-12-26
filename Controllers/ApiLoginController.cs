@@ -18,19 +18,25 @@ namespace PruebaPatrickLisby.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginRequest loginRequest)
         {
+            // Validar datos del request
+            if (string.IsNullOrEmpty(loginRequest.Correo) || string.IsNullOrEmpty(loginRequest.Contrasena))
+            {
+                return BadRequest(new { mensaje = "Correo y contraseña son obligatorios." });
+            }
+
             try
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
-                    // Buscar el usuario por correo
                     string sql = @"
-                SELECT idCedulaUsuario, nombreUsuario, apellidoUsuario, correoElectronicoUsuario, contrasenaUsuario, estado, idPermiso
-                FROM Usuarios
-                WHERE correoElectronicoUsuario = @correoElectronicoUsuario";
+                    SELECT idCedulaUsuario, nombreUsuario, apellidoUsuario, correoElectronicoUsuario, contrasenaUsuario, estado, idPermiso
+                    FROM Usuarios
+                    WHERE correoElectronicoUsuario = @correoElectronicoUsuario";
 
                     Usuario usuario = null;
+
                     using (var cmd = new SqlCommand(sql, connection))
                     {
                         cmd.Parameters.AddWithValue("@correoElectronicoUsuario", loginRequest.Correo);
@@ -63,16 +69,19 @@ namespace PruebaPatrickLisby.Controllers
                         return Unauthorized(new { mensaje = "El usuario está inactivo." });
                     }
 
+                    // Verificar contraseña
                     bool isPasswordValid = BCrypt.Net.BCrypt.Verify(loginRequest.Contrasena, usuario.contrasenaUsuario);
                     if (!isPasswordValid)
                     {
                         return Unauthorized(new { mensaje = "Credenciales inválidas." });
                     }
 
-                    // Guardar información del usuario en la sesión
-                    HttpContext.Session.SetString("UserId", usuario.idCedulaUsuario.ToString());
-                    HttpContext.Session.SetString("UserName", usuario.nombreUsuario);
-                    HttpContext.Session.SetString("UserEmail", usuario.correoElectronicoUsuario);
+                    // Guardar información en la sesión
+                    HttpContext.Session.SetString("SessionUserId", usuario.idCedulaUsuario.ToString());
+                    HttpContext.Session.SetString("SessionUserName", usuario.nombreUsuario);
+
+                    HttpContext.Session.SetString("SessionUserEmail", usuario.correoElectronicoUsuario);
+                    HttpContext.Session.SetInt32("SessionUserPermission", usuario.idPermiso);
 
                     return Ok(new
                     {
@@ -95,9 +104,8 @@ namespace PruebaPatrickLisby.Controllers
         {
             try
             {
-                // Limpiar la sesión del usuario
+                // Limpiar sesión
                 HttpContext.Session.Clear();
-
                 return Ok(new { mensaje = "Sesión cerrada exitosamente." });
             }
             catch (Exception ex)
